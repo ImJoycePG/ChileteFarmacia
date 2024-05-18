@@ -101,6 +101,12 @@
                             </ul>
                         </li>
                     </ul>
+
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-danger" style="color: white;" onclick="cerrarSesion();">Cerrar Sesión</button>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
@@ -177,6 +183,10 @@
                 fila.style.display = mostrarFila ? '' : 'none';
             });
         });
+
+        function cerrarSesion() {
+            window.location.href = '../../../login.html';
+        }
     </script>
 </body>
 </html>

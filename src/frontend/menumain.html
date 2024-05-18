@@ -94,6 +94,12 @@
                             </ul>
                         </li>
                     </ul>
+
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-danger" style="color: white;" onclick="cerrarSesion();">Cerrar Sesión</button>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
@@ -105,5 +111,11 @@
             <p class="lead">Priorizando la salud de todos nuestros clientes.</p>
         </div>
     </section>
+
+    <script>
+        function cerrarSesion() {
+            window.location.href = '../../login.html';
+        }
+    </script>
 </body>
 </html>
