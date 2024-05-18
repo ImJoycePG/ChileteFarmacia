@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
+
+:root {
+    --color_white: #FFFFFF;
+    --color_50: #fffbeb;
+    --color_100: #fff5c6;
+    --color_200: #ffe988;
+    --color_300: #ffd747;
+    --color_400: #ffc520;
+    --color_500: #f9a307;
+    --color_600: #dd7b02;
+    --color_700: #b75606;
+    --color_800: #94410c;
+    --color_900: #7a370d;
+    --color_950: #461b02;
+
+    --normal_input_border_radius: 6px;
+
+    --text_poetsen: "Poetsen One", sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    overflow-y: hidden;
+}
+
+html, body {
+    background-color: var(--color_100);
+}
+
+.containerBody {
+    background-color: var(--color_100);
+}
+
+.containerRight {
+    background-image: url("../images/FondoRight.webp");
+}
+
+.containerTitle h1 {
+    color: var(--color_600);
+    font-family: var(--text_poetsen);
+}
+
+.textInput {
+    border-radius: var(--normal_input_border_radius);
+    border: solid 3px #aaaa;
+    color: var(--color_950);
+}
+
+.normalButton {
+    background-color: var(--color_500);
+    color: var(--color_950);
+    transition: 0.2s ease-out;
+}
+
+.normalButton:hover {
+    background-color: var(--color_800);
+    color: var(--color_950);
+}
+
+@media screen and (min-width: 1024px) {
+    .containerLeft {
+        position: relative;
+        box-shadow: 10px 0px 6px 0px rgba(0,0,0,0.53);
+        -webkit-box-shadow: 10px 0px 6px 0px rgba(0,0,0,0.53);
+        -moz-box-shadow: 10px 0px 6px 0px rgba(0,0,0,0.53);
+    }
+}

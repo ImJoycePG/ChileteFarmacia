@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+    --color_white: #FFFFFF;
+    --color_50: #fffbeb;
+    --color_100: #fff5c6;
+    --color_200: #ffe988;
+    --color_300: #ffd747;
+    --color_400: #ffc520;
+    --color_500: #f9a307;
+    --color_600: #dd7b02;
+    --color_700: #b75606;
+    --color_800: #94410c;
+    --color_900: #7a370d;
+    --color_950: #461b02;
+
+    --normal_input_border_radius: 6px;
+
+    --text_poetsen: "Poetsen One", sans-serif;
+    --text-libre-baskerville: "Libre Baskerville", serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    background-color: var(--color_200) !important;
+    user-select: none;
+}
+
+.navbar-brand {
+    font-family: var(--text_poetsen) !important;
+}
+
+.dropdown a {
+    font-family: var(--text-libre-baskerville);
+}
+
+.dropdown-menu, .dropdown-menu li {
+    background-color: var(--color_100) !important;
+}
+
+.dropdown-item:hover{
+    background-color: var(--color_300) !important;
+}
+
+.spinner-container {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important; 
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    z-index: 9999 !important;
+    backdrop-filter: blur(10px) !important;
+}
+.hidden {
+    display: none !important;
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./src/frontend/css/StyleLogin.css" rel="stylesheet">
+    <link href="https://necolas.github.io/normalize.css/8.0.1/normalize.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Iniciar Sesión | Chilete Farmacia</title>
+</head>
+<body>
+    <div class="containerBody w-full h-full flex flex-col lg:flex-row lg:h-screen">
+        <div class="containerLeft w-auto">
+            <div class="containerLeftAll m-2.5 lg:mx-14 lg:my-auto lg:w-auto lg:h-auto">
+                <div class="containerTitle mt-2.5 mb-3.5">
+                    <img src="./src/frontend/images/LogoMain.webp" alt="LogoMain" class="cursor-not-allowed w-48 m-auto md:w-80 select-none animate__animated animate__slideInDown animate__slow">
+                    <h1 class="mb-1 text-3xl tracking-wide select-none md:text-5xl lg:text-4xl">Iniciar Sesión</h1>
+                </div>
+                <form class="containerForm flex flex-col" id="loginForm"> 
+                    <input type="text" id="text_input_username" class="textInput p-2.5 h-12 my-1.5 cursor-text md:h-16 md:text-xl lg:h-14" placeholder="Usuario" maxlength="20" minlength="3" name="username"/>
+                    <input type="password" id="pass_input_password" class="textInput p-2.5 h-12 my-1.5 cursor-text md:h-16 md:text-xl lg:h-14" placeholder="Contraseña" name="password"/>
+                    
+                    <button type="sumbit" id="button_login" class="normalButton h-10 rounded-lg my-5 font-semibold cursor-pointer md:h-16 md:text-2xl lg:h-12">Iniciar Sesión</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="containerRight hidden lg:flex lg:flex-1 lg:h-auto lg:w-3/4 xl:w-3/4 2xl:w-3/4 bg-cover bg-no-repeat bg-center">
+            <img src="./src/frontend/images/LogoRight.webp" alt="LogoRight" class="lg:m-auto lg:w-3/5 lg:h-auto lg:rounded-3xl">
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('loginForm').addEventListener('submit', function(event) {
+                event.preventDefault(); 
+
+                var formData = new FormData(this);
+
+                fetch('./src/backend/login.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.success) {
+                        window.location.href = "./src/frontend/menumain.html";
+                    } else {
+                        Swal.fire({
+                            title: 'Error',
+                            text: data.message,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                });
+            })
+        })
+    </script>
+</body>
+</html>
