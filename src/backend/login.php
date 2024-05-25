@@ -18,10 +18,10 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $v_sql = "
         SELECT
-            userName,
+            usuario,
             passUser
         FROM admin_usuario
-        WHERE userName='$username' AND passUser=MD5('$password');
+        WHERE usuario='$username' AND passUser=MD5('$password');
     ";
     $result = $conn->query($v_sql);
 

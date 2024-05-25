@@ -9,20 +9,19 @@ $conn = include("../../Utils/db_connection.php");
 
 $v_sql = "
 SELECT
-    p.productoid,
-    p.nameProduct,
-    p.codeAlmacen,
-    p.codeBarras,
-    IFNULL(categoria.nombreDetalle, '-') AS categoryProduct,
-    IFNULL(unidades.nombreDetalle, '-') AS unidadProducto,
-    IFNULL(marcas.nombreDetalle, '-') AS marcaProducto,
-    IFNULL(modelos.nombreDetalle, '-') AS modeloProducto,
-    p.statusProducto
-FROM almacen_producto AS p
-LEFT JOIN utiles_tablas_detalle unidades ON p.unidadProducto = unidades.detalleid AND unidades.nombreTabla = 'UNIDAD_MEDIDA_PRODUCTO'
-LEFT JOIN utiles_tablas_detalle marcas ON p.marcaProducto = marcas.detalleid AND marcas.nombreTabla = 'MARCAS_PRODUCTOS'
-LEFT JOIN utiles_tablas_detalle modelos ON p.marcaProducto = modelos.detalleid AND modelos.nombreTabla = 'MODELOS_PRODUCTOS'
-LEFT JOIN utiles_tablas_detalle categoria ON p.marcaProducto = categoria.detalleid AND categoria.nombreTabla = 'CATEGORIAS_PRODUCTOS';
+    ap.productoid,
+    ap.nameProduct,
+    ap.codeAlmacen,
+    ap.codeBarras,
+    ap.categoryProduct,
+    unidad.nombreDetalle AS unidadProducto,
+    marca.nombreDetalle AS marcaProducto,
+    modelo.nombreDetalle AS modeloProducto,
+    IF(ap.statusProducto = 0, 'Activo', 'Inactivo') AS statusProducto
+FROM almacen_producto AS ap
+LEFT JOIN utiles_tabla_varios_detalle AS unidad ON ap.unidadProducto = unidad.detalleid
+LEFT JOIN utiles_tabla_varios_detalle AS marca ON ap.marcaProducto = marca.detalleid
+LEFT JOIN utiles_tabla_varios_detalle AS modelo ON ap.modeloProducto = modelo.detalleid
 ";
 $result = $conn->query($v_sql);
 
@@ -37,8 +36,8 @@ if ($result->num_rows > 0) {
         echo "<td>" . $row['unidadProducto'] . "</td>";
         echo "<td>" . $row['marcaProducto'] . "</td>";
         echo "<td>" . $row['modeloProducto'] . "</td>";
-        echo "<td>" . ($row['statusProducto'] == 0 ? 'Activo' : 'Inactivo') . "</td>";
-        echo "<td><a href='./form/productos.html?productoid=" . $row['productoid'] . "' class='btn btn-sm btn-primary'><i class='bi bi-highlighter'></i></a></td>";
+        echo "<td>" . $row['statusProducto'] . "</td>";
+        echo "<td><a href='./forms/productos.html?productoid=" . $row['productoid'] . "' class='btn btn-sm btn-primary'><i class='bi bi-highlighter'></i></a></td>";
         echo "</tr>";
     }
 } else {

@@ -7,12 +7,11 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <title>Listado de Productos | Chilete Farmacia</title>
+    <title>Clientes | Chilete Farmacia</title>
 </head>
-<body onload="hideSpinner(); cargarProductos();">
+<body onload="hideSpinner(); cargarClientes();">
     <div id="spinner-container" class="spinner-container">
         <div class="spinner-border text-warning" role="status">
             <span class="visually-hidden">Loading...</span>
@@ -22,31 +21,34 @@
     <header>
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDesktop" aria-controls="navbarDesktop" aria-expanded="false" aria-label="Navegacion">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDesktop"
+                    aria-controls="navbarDesktop" aria-expanded="false" aria-label="Navegacion">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                
+    
                 <div class="collapse navbar-collapse" id="navbarDesktop">
                     <a class="navbar-brand" href="../menumain.html">
                         <img src="../images/LogoMain.webp" alt="LogoMain" width="64" height="64">
                         Chilete Farmacia
                     </a>
-                    
+    
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              Administrativo
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Administrativo
                             </a>
                             <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="./usuario_view.html">Usuario</a></li>
+                                <li><a class="dropdown-item" href="./usuario_view.html">Usuario</a></li>
                             </ul>
                         </li>
-                    </ul>   
-
+                    </ul>
+    
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              Almacén
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Almacén
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="./productos_view.html">Registro de Productos</a></li>
@@ -56,11 +58,12 @@
                             </ul>
                         </li>
                     </ul>
-
+    
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              Comercial
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Comercial
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="./locales_view.html">Locales</a></li>
@@ -69,11 +72,12 @@
                             </ul>
                         </li>
                     </ul>
-                    
+    
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              Punto de Venta
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Punto de Venta
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="#">Facturar Venta</a></li>
@@ -81,33 +85,36 @@
                             </ul>
                         </li>
                     </ul>
-
+    
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              Planillas
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Planillas
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="./personal_view.html">Personal</a></li>
-                                <li><a class="dropdown-item" href="./medicos_view.html">Médicos</a></li>
+                                <li><a class="dropdown-item" href="#">Médicos</a></li>
                             </ul>
                         </li>
                     </ul>
-
+    
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              Utilidades
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Utilidades
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="./tablavarios_view.html">Tablas</a></li>
                             </ul>
                         </li>
                     </ul>
-
+    
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <button type="button" class="btn btn-danger" style="color: white;" onclick="cerrarSesion();">Cerrar Sesión</button>
+                            <button type="button" class="btn btn-danger" style="color: white;"
+                                onclick="cerrarSesion();">Cerrar Sesión</button>
                         </li>
                     </ul>
                 </div>
@@ -115,52 +122,51 @@
         </nav>
     </header>
 
+
     <div class="container mt-5">
-        <h2 class="text-center mb-4">Listado de Productos</h2>
+        <h2 class="text-center mb-4">Lista de Clientes</h2>
         <div class="row mb-3">
             <div class="col-md-6">
                 <input type="text" id="searchInput" class="form-control" placeholder="Buscar en la tabla...">
             </div>
             <div class="col-md-6 text-end">
-                <a class="btn btn-success" type="button" id="newButton" href="./forms/productos.html">Nuevo</a>
+                <a class="btn btn-success" type="button" id="newButton" href="./forms/clientes.html">Nuevo</a>
                 <button class="btn btn-primary" type="button" id="refreshButton" onclick="refreshView()">Refrescar</button>
             </div>
         </div>
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">ID del Producto</th>
-                    <th scope="col">Nombre del Producto</th>
-                    <th scope="col">Código de Almacén</th>
-                    <th scope="col">Código de Barras</th>
-                    <th scope="col">Categoría del Producto</th>
-                    <th scope="col">Unidad del Producto</th>
-                    <th scope="col">Marca del Producto</th>
-                    <th scope="col">Modelo del Producto</th>
-                    <th scope="col">Estado del Producto</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Tipo de Documento</th>
+                    <th scope="col">N° Documento</th>
+                    <th scope="col">Razón Social</th>
+                    <th scope="col">Dirección Fiscal</th>
+                    <th scope="col">E-Mail</th>
+                    <th scope="col">Número Telefónico</th>
                     <th scope="col">Acciones</th>
                 </tr>
             </thead>
-            <tbody id="productTable">
+            <tbody id="clientesTable">
                 
             </tbody>
         </table>
     </div>
 
     <script>
-        function cargarProductos() {
-            fetch('../../backend/pages/productos_view.php')
+        function cargarClientes() { 
+            fetch('../../backend/pages/clientes_view.php')
                 .then(response => response.text())
                 .then(data => {
-                    document.getElementById('productTable').innerHTML = data;
+                    document.getElementById('clientesTable').innerHTML = data;
                     hideSpinner();
                 })
-                .catch(error => {console.error('Error al cargar los productos:', error); hideSpinner();});
+                .catch(error => {console.error('Error al cargar los clientes:', error); hideSpinner();});
         }
 
         function refreshView() {
             document.getElementById('spinner-container').classList.remove('hidden');
-            cargarProductos();
+            cargarClientes();
         }
 
         function hideSpinner() {
@@ -171,7 +177,7 @@
 
         document.getElementById('searchInput').addEventListener('input', function () {
             var filtro = this.value.toLowerCase();
-            var filas = document.querySelectorAll('#productTable tr');
+            var filas = document.querySelectorAll('#clientesTable tr');
 
             filas.forEach(function (fila) {
                 var columnas = fila.querySelectorAll('td');
@@ -186,7 +192,9 @@
                 fila.style.display = mostrarFila ? '' : 'none';
             });
         });
+    </script>
 
+    <script>
         function cerrarSesion() {
             window.location.href = '../../../login.html';
         }

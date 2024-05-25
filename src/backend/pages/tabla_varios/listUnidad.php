@@ -4,11 +4,12 @@ $conn = include("../../../Utils/db_connection.php");
 
 $v_query = "
     SELECT 
-        detalleid, 
-        nombreDetalle 
-    FROM utiles_tablas_detalle 
-    WHERE nombreTabla = 'UNIDAD_MEDIDA_PRODUCTO'
-    AND statusDetalle = 0
+        td.detalleid, 
+        td.nombreDetalle 
+    FROM utiles_tabla_varios_detalle AS td
+    LEFT JOIN utiles_tabla_varios AS tv ON td.tablaid = tv.tablaid
+    WHERE tv.tablaNombre = 'ALMAC_UNIDAD_MEDIDA'
+    ORDER BY ordenDetalle ASC
 ";
 
 $result = mysqli_query($conn, $v_query);

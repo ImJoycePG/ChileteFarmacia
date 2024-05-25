@@ -2,15 +2,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="./css/StyleNav.css" rel="stylesheet">
+    <link href="../css/StyleNav.css" rel="stylesheet">
     <link href="https://necolas.github.io/normalize.css/8.0.1/normalize.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>Menú Principal | Chilete Farmacia</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>Tablas Varios | Chilete Farmacia</title>
 </head>
-<body>
+<body onload="hideSpinner(); cargarTablasVarios();">
+    <div id="spinner-container" class="spinner-container">
+        <div class="spinner-border text-warning" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
     <header>
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
@@ -19,8 +25,8 @@
                 </button>
                 
                 <div class="collapse navbar-collapse" id="navbarDesktop">
-                    <a class="navbar-brand">
-                        <img src="./images/LogoMain.webp" alt="LogoMain" width="64" height="64">
+                    <a class="navbar-brand" href="../menumain.html">
+                        <img src="../images/LogoMain.webp" alt="LogoMain" width="64" height="64">
                         Chilete Farmacia
                     </a>
                     
@@ -28,10 +34,9 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                               Administrativo
-                              <!--Termine el usuario_view.html y el forms/usuario.html-->
                             </a>
                             <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="./pages/usuario_view.html">Usuario</a></li>
+                              <li><a class="dropdown-item" href="./usuario_view.html">Usuario</a></li>
                             </ul>
                         </li>
                     </ul>   
@@ -42,7 +47,7 @@
                               Almacén
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="./pages/productos_view.html">Registro de Productos</a></li>
+                                <li><a class="dropdown-item" href="./productos_view.html">Registro de Productos</a></li>
                                 <li><a class="dropdown-item" href="#">Inventario Inicial</a></li>
                                 <li><a class="dropdown-item" href="#">Movimientos de Almacén</a></li>
                                 <li><a class="dropdown-item" href="#">Orden de Compra</a></li>
@@ -56,9 +61,9 @@
                               Comercial
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="./pages/locales_view.html">Locales</a></li>
-                                <li><a class="dropdown-item" href="./pages/clientes_view.html">Clientes</a></li>
-                                <li><a class="dropdown-item" href="./pages/proveedores_view.html">Proveedores</a></li>
+                                <li><a class="dropdown-item" href="./locales_view.html">Locales</a></li>
+                                <li><a class="dropdown-item" href="./clientes_view.html">Clientes</a></li>
+                                <li><a class="dropdown-item" href="./proveedores_view.html">Proveedores</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -81,8 +86,8 @@
                               Planillas
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="./pages/personal_view.html">Personal</a></li>
-                                <li><a class="dropdown-item" href="./pages/medicos_view.html">Médicos</a></li>
+                                <li><a class="dropdown-item" href="./personal_view.html">Personal</a></li>
+                                <li><a class="dropdown-item" href="./medicos_view.html">Médicos</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -93,7 +98,7 @@
                               Utilidades
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="./pages/tablavarios_view.html">Tablas</a></li>
+                                <li><a class="dropdown-item" href="#">Tablas</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -108,16 +113,77 @@
         </nav>
     </header>
 
-    <section class="welcome-section py-5 text-center">
-        <div class="container-fluid">
-            <h1 class="display-4">Bienvenido a Chilete Farmacia</h1>
-            <p class="lead">Priorizando la salud de todos nuestros clientes.</p>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Tablas Varios</h2>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <input type="text" id="searchInput" class="form-control" placeholder="Buscar en la tabla...">
+            </div>
+            <div class="col-md-6 text-end">
+                <a class="btn btn-success" type="button" id="newButton" href="./forms/tablavarios.html">Nuevo</a>
+                <button class="btn btn-primary" type="button" id="refreshButton" onclick="refreshView()">Refrescar</button>
+            </div>
         </div>
-    </section>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Tabla</th>
+                    <th scope="col">Descripcion</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tablaVariosTable">
+                
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function cargarTablasVarios() {
+            fetch('../../backend/pages/tablavarios_view.php')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('tablaVariosTable').innerHTML = data;
+                    hideSpinner();
+                })
+                .catch(error => {console.error('Error al cargar las tablas varios:', error); hideSpinner();});
+        }
+
+        function refreshView() {
+            document.getElementById('spinner-container').classList.remove('hidden');
+            cargarTablasVarios();
+        }
+
+        function hideSpinner() {
+            setTimeout(function() {
+                document.getElementById('spinner-container').classList.add('hidden');
+            }, 1000);
+        }
+
+        document.getElementById('searchInput').addEventListener('input', function () {
+            var filtro = this.value.toLowerCase();
+            var filas = document.querySelectorAll('#tablaVariosTable tr');
+
+            filas.forEach(function (fila) {
+                var columnas = fila.querySelectorAll('td');
+                var mostrarFila = false;
+
+                columnas.forEach(function (columna) {
+                    if (columna.textContent.toLowerCase().includes(filtro)) {
+                        mostrarFila = true;
+                    }
+                });
+
+                fila.style.display = mostrarFila ? '' : 'none';
+            });
+        });
+    </script>
 
     <script>
         function cerrarSesion() {
-            window.location.href = '../../login.html';
+            window.location.href = '../../../login.html';
         }
     </script>
 </body>

@@ -1,16 +1,17 @@
 <!DOCTYPE html>
+</html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../css/StyleNav.css" rel="stylesheet">
+    <link href="../../css/StyleNav.css" rel="stylesheet">
     <link href="https://necolas.github.io/normalize.css/8.0.1/normalize.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>Menú Principal | Chilete Farmacia</title>
+    <title>Administración Usuario | Chilete Farmacia</title>
 </head>
-<body onload="hideSpinner(); cargarInventarios();">
+<body onload="hideSpinner(); loadUsuarioData();">
     <div id="spinner-container" class="spinner-container">
         <div class="spinner-border text-warning" role="status">
             <span class="visually-hidden">Loading...</span>
@@ -23,22 +24,23 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDesktop" aria-controls="navbarDesktop" aria-expanded="false" aria-label="Navegacion">
                     <span class="navbar-toggler-icon"></span>
                 </button>
- 
+                
                 <div class="collapse navbar-collapse" id="navbarDesktop">
-                    <a class="navbar-brand" href="../menumain.html">
-                        <img src="../images/LogoMain.webp" alt="LogoMain" width="64" height="64">
+                    <a class="navbar-brand" href="../../menumain.html">
+                        <img src="../../images/LogoMain.webp" alt="LogoMain" width="64" height="64">
                         Chilete Farmacia
                     </a>
+                    
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                               Administrativo
                             </a>
                             <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="#">Usuario</a></li>
+                              <li><a class="dropdown-item" href="../usuario_view.html">Usuario</a></li>
                             </ul>
                         </li>
-                    </ul>                    
+                    </ul>   
 
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
@@ -46,9 +48,10 @@
                               Almacén
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="./productos_view.html">Registro de Productos</a></li>
-                                <li><a class="dropdown-item" href="#">Compra de Productos</a></li>
-                                <li><a class="dropdown-item" href="#">Reporte de Saldo Actual</a></li>
+                                <li><a class="dropdown-item" href="../productos_view.html">Registro de Productos</a></li>
+                                <li><a class="dropdown-item" href="#">Inventario Inicial</a></li>
+                                <li><a class="dropdown-item" href="#">Movimientos de Almacén</a></li>
+                                <li><a class="dropdown-item" href="#">Orden de Compra</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -59,14 +62,13 @@
                               Comercial
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Locales</a></li>
-                                <li><a class="dropdown-item" href="#">Clientes</a></li>
-                                <li><a class="dropdown-item" href="#">Proveedores</a></li>
-                                <li><a class="dropdown-item" href="#">Médicos</a></li>
+                                <li><a class="dropdown-item" href="../locales_view.html">Locales</a></li>
+                                <li><a class="dropdown-item" href="../clientes_view.html">Clientes</a></li>
+                                <li><a class="dropdown-item" href="../proveedores_view.html">Proveedores</a></li>
                             </ul>
                         </li>
                     </ul>
-
+                    
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -85,7 +87,8 @@
                               Planillas
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Personal</a></li>
+                                <li><a class="dropdown-item" href="../personal_view.html">Personal</a></li>
+                                <li><a class="dropdown-item" href="../medicos_view.html">Médicos</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -96,7 +99,7 @@
                               Utilidades
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Tablas</a></li>
+                                <li><a class="dropdown-item" href="../tablavarios_view.html">Tablas</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -110,63 +113,119 @@
             </div>
         </nav>
     </header>
+    
+    <div class="container">
+        <h2 class="text-center mb-4 mt-4">Sistema de Usuario</h2>
+        <form id="usuarioForm" action="../../../backend/pages/form/usuario/usuario_new.php" method="post">
+            <input type="hidden" id="usuarioid" name="usuarioid">
 
-    <div class="container mt-5">
-        <h2 class="text-center mb-4">Inventario Inicial</h2>
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <input type="text" id="searchInput" class="form-control" placeholder="Buscar en la tabla...">
+            <div class="mb-3">
+                <label for="usuario" class="form-label">Usuario</label>
+                <input type="text" class="form-control" id="usuario" name="usuario" required>
             </div>
-            <div class="col-md-6 text-end">
-                <a class="btn btn-success" type="button" id="newButton" href="./form/inventarios.html">Nuevo</a>
-                <button class="btn btn-primary" type="button" id="refreshButton" onclick="refreshInventarios()">Refrescar</button>
+            <div class="mb-3">
+                <label for="passUser" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="passUser" name="passUser" required>
             </div>
-        </div>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">ID del Inventario</th>
-                    <th scope="col">ID Local</th>
-                    <th scope="col">Emisión Inical</th>
-                    <th scope="col">Estado del inventario</th>
-                </tr>
-            </thead>
-            <tbody id="inventoryTable">
-                
-            </tbody>
-        </table>
-    </div>
 
-    <script>
-        function loadInventoryData() {
-            const params = new URLSearchParams(window.location.search);
-            const inventoryid = params.get('inventarioid');
+            <div class="mb-3">
+                <label for="personalid" class="form-label">Personal</label>
+                <input type="text" class="form-control" id="personalid" name="personalid" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="emailPersonal" class="form-label">E-Mail</label>
+                <input type="email" class="form-control" id="emailPersonal" name="emailPersonal">
+            </div>
             
-            if (inventoryid) {
-                fetch(`../../../backend/pages/form/inventario_inicial/inventario_get.php?inventarioid=${inventoryid}`)
+            <div class="mb-3">
+                <label for="estadoUsuario" class="form-label">Estado Usuario</label>
+                <select class="form-select" id="estadoUsuario" name="estadoUsuario" required>
+                    <option value="0">Activo</option>
+                    <option value="1">Inactivo</option>
+                </select>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='../usuario_view.html'">Volver</button>
+                <div>
+                    <button type="submit" class="btn btn-primary" id="registerButton">Registrar Usuario</button>
+                    <button type="button" class="btn btn-success" id="updateButton" style="display:none;" onclick="updateUsuario()">Actualizar Usuario</button>
+                    <button type="button" class="btn btn-danger" id="deleteButton" style="display:none;" onclick="deleteUsuario()">Eliminar Usuario</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        document.getElementById('usuarioForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch('../../../backend/pages/form/usuario/usuario_new.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    Swal.fire(
+                        '¡Registrado!',
+                        'El usuario ha sido registrado.',
+                        'success'
+                    ).then(() => {
+                        window.location.href = '../usuario_view.html';
+                    });
+                } else {
+                    Swal.fire(
+                        'Error',
+                        'Hubo un problema al registrar el usuario.',
+                        'error'
+                    );
+                }
+            })
+            .catch(error => {
+                Swal.fire(
+                    'Error',
+                    'Hubo un problema al registrar el usuario.',
+                    'error'
+                );
+            });
+        });
+
+        function loadUsuarioData() {
+            const params = new URLSearchParams(window.location.search);
+            const usuarioid = params.get('usuarioid');
+            
+            if (usuarioid) {
+                fetch(`../../../backend/pages/form/usuario/usuario_get.php?usuarioid=${usuarioid}`)
                     .then(response => response.json())
                     .then(data => {
-                        document.getElementById('inventarioid ').value = data.inventarioid;
-                        document.getElementById('localid').value = data.localid;
-                        document.getElementById('emisionInicial ').value = data.emisionInicial;
-                        document.getElementById('statusInventario ').value = data.statusInventario;
-
-                        //document.getElementById('registerButton').style.display = 'none';
-                        //document.getElementById('updateButton').style.display = 'inline-block';
-                        //document.getElementById('deleteButton').style.display = 'inline-block';
+                        document.getElementById('usuarioid').value = data.usuarioid;
+                        document.getElementById('usuario').value = data.usuario;
+                        document.getElementById('passUser').value = data.passUser;
+                        document.getElementById('personalid').value = data.personalid;
+                        document.getElementById('emailPersonal').value = data.emailPersonal;
+                        document.getElementById('estadoUsuario').value = data.estadoUsuario;
+                            
+                
+                        document.getElementById('registerButton').style.display = 'none';
+                        document.getElementById('updateButton').style.display = 'inline-block';
+                        document.getElementById('deleteButton').style.display = 'inline-block';
 
                         hideSpinner();
                     })
-                    .catch(error => { console.error('Error al cargar los datos del inventario:', error); hideSpinner(); });
+                    .catch(error => { console.error('Error al cargar los datos del usuario:', error); hideSpinner(); });
             } else {
                 hideSpinner();
             }
         }
 
-        function updateInventory() {
-            const formData = new FormData(document.getElementById('inventoryForm'));
-            //Cambia la direccion de este archivo
-            fetch('../../../backend/pages/form/inventario_inicial/inventario_update.php', {
+        function updateUsuario() {
+            const formData = new FormData(document.getElementById('usuarioForm'));
+
+            fetch('../../../backend/pages/form/usuario/usuario_update.php', {
                 method: 'POST',
                 body: formData
             })
@@ -175,15 +234,15 @@
                 if (result.success) {
                     Swal.fire(
                         '¡Actualizado!',
-                        'El inventario ha sido actualizado.',
+                        'El usuario ha sido actualizado.',
                         'success'
                     ).then(() => {
-                        window.location.href = '../inventario_inicial_view.html';
+                        window.location.href = '../usuario_view.html';
                     });
                 } else {
                     Swal.fire(
                         'Error',
-                        'Hubo un problema al actualizar el inventario.',
+                        'Hubo un problema al actualizar el usuario: ' + result.error,
                         'error'
                     );
                 }
@@ -191,14 +250,14 @@
             .catch(error => {
                 Swal.fire(
                     'Error',
-                    'Hubo un problema al actualizar el inventario.',
+                    'Hubo un problema al actualizar el usuario.',
                     'error'
                 );
             });
         }
-
-        function deleteInventory() {
-            const inventoryid = document.getElementById('inventarioid').value;
+    
+        function deleteUsuario() {
+            const usuarioid= document.getElementById('usuarioid').value;
 
             Swal.fire({
                 title: '¿Estás seguro?',
@@ -210,26 +269,26 @@
                 confirmButtonText: 'Sí, eliminarlo'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    fetch(`../../../backend/pages/form/inventario_inicial/inventario_delete.php`, {
+                    fetch(`../../../backend/pages/form/usuario/usuario_delete.php`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',
                         },
-                        body: `inventarioid=${inventoryid}`
+                        body: `usuarioid=${usuarioid}`
                     })
                     .then(response => {
                         if (response.ok) {
                             Swal.fire(
                                 '¡Eliminado!',
-                                'El inventario ha sido eliminado.',
+                                'El usuario ha sido eliminado.',
                                 'success'
                             ).then(() => {
-                                window.location.href = '../inventario_inicial_view.html';
+                                window.location.href = '../usuario_view.html';
                             });
                         } else {
                             Swal.fire(
                                 'Error',
-                                'Hubo un problema al eliminar el inventario.',
+                                'Hubo un problema al eliminar el usuario.',
                                 'error'
                             );
                         }
@@ -237,52 +296,13 @@
                     .catch(error => {
                         Swal.fire(
                             'Error',
-                            'Hubo un problema al eliminar el inventario.',
+                            'Hubo un problema al eliminar el usuario.',
                             'error'
                         );
                     });
                 }
             });
         }
-
-        function cargarInventarios() {
-            fetch('../../backend/pages/inventario_inicial_view.php')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('inventoryTable').innerHTML = data;
-                    hideSpinner();
-                })
-                .catch(error => {console.error('Error al cargar los inventarios:', error); hideSpinner();});
-        }
-
-        function refreshInventarios() {
-            document.getElementById('spinner-container').classList.remove('hidden');
-            cargarInventarios();
-        }
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('searchInput');
-            const inventoryTable = document.getElementById('inventoryTable');
-            const rows = inventoryTable.getElementsByTagName('tr');
-
-            searchInput.addEventListener('keyup', function() {
-                const filter = searchInput.value.toLowerCase();
-
-                for (let i = 1; i < rows.length; i++) {
-                    const cells = rows[i].getElementsByTagName('td');
-                    let match = false;
-
-                    for (let j = 0; j < cells.length; j++) {
-                        if (cells[j].innerText.toLowerCase().includes(filter)) {
-                            match = true;
-                            break;
-                        }
-                    }
-
-                    rows[i].style.display = match ? '' : 'none';
-                }
-            });
-        });
 
         function hideSpinner() {
             setTimeout(function() {
@@ -291,8 +311,9 @@
         }
 
         function cerrarSesion() {
-            window.location.href = '../../../login.html';
+            window.location.href = '../../../../login.html';
         }
     </script>
+
 </body>
 </html>

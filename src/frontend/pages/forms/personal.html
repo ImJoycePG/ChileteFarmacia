@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+</html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/StyleNav.css" rel="stylesheet">
+    <link href="https://necolas.github.io/normalize.css/8.0.1/normalize.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Planillas Personal | Chilete Farmacia</title>
+</head>
+<body onload="hideSpinner(); loadPersonalData();">
+    <div id="spinner-container" class="spinner-container">
+        <div class="spinner-border text-warning" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDesktop" aria-controls="navbarDesktop" aria-expanded="false" aria-label="Navegacion">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="collapse navbar-collapse" id="navbarDesktop">
+                    <a class="navbar-brand" href="../../menumain.html">
+                        <img src="../../images/LogoMain.webp" alt="LogoMain" width="64" height="64">
+                        Chilete Farmacia
+                    </a>
+                    
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Administrativo
+                            </a>
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="../usuario_view.html">Usuario</a></li>
+                            </ul>
+                        </li>
+                    </ul>   
+
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Almacén
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="../productos_view.html">Registro de Productos</a></li>
+                                <li><a class="dropdown-item" href="#">Inventario Inicial</a></li>
+                                <li><a class="dropdown-item" href="#">Movimientos de Almacén</a></li>
+                                <li><a class="dropdown-item" href="#">Orden de Compra</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Comercial
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="../locales_view.html">Locales</a></li>
+                                <li><a class="dropdown-item" href="../clientes_view.html">Clientes</a></li>
+                                <li><a class="dropdown-item" href="../proveedores_view.html">Proveedores</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Punto de Venta
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Facturar Venta</a></li>
+                                <li><a class="dropdown-item" href="#">Receta Médica</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Planillas
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="../personal_view.html">Personal</a></li>
+                                <li><a class="dropdown-item" href="../medicos_view.html">Médicos</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Utilidades
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="../tablavarios_view.html">Tablas</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-danger" style="color: white;" onclick="cerrarSesion();">Cerrar Sesión</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <h2 class="text-center mb-4 mt-4">Sistema de Personal</h2>
+        <form id="personalForm" action="../../../backend/pages/form/personal/personal_new.php" method="post">
+            <input type="hidden" id="personalid" name="personalid">
+
+            <div class="mb-3">
+                <label for="dniPersonal" class="form-label">DNI Personal</label>
+                <input type="text" class="form-control" id="dniPersonal" name="dniPersonal" required>
+            </div>
+            <div class="mb-3">
+                <label for="personalNombres" class="form-label">Nombres</label>
+                <input type="text" class="form-control" id="personalNombres" name="personalNombres" required>
+            </div>
+            <div class="mb-3">
+                <label for="apellidoPaterno" class="form-label">Apellido Paterno</label>
+                <input type="text" class="form-control" id="apellidoPaterno" name="apellidoPaterno" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="apellidoMaterno" class="form-label">Apellido Materno</label>
+                <input type="text" class="form-control" id="apellidoMaterno" name="apellidoMaterno" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="fechaNac" class="form-label">Fecha de Nacimiento</label>
+                <input type="date" class="form-control" id="fechaNac" name="fechaNac" required>
+            </div>
+
+            <div class="mb-3"> 
+                <label for="generoPersonal" class="form-label">Sexo</label>
+                <select class="form-select" id="generoPersonal" name="generoPersonal">
+                    <!--AQUI ENTRAN LAS OPCIONES-->
+                </select>
+            </div>
+
+            <div class="mb-3"> 
+                <label for="estadoCivil" class="form-label">Estado Civíl</label>
+                <select class="form-select" id="estadoCivil" name="estadoCivil">
+                    <!--AQUI ENTRAN LAS OPCIONES-->
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="rolePersonal" class="form-label">Rol Laboral</label>
+                <select class="form-select" id="rolePersonal" name="rolePersonal">
+                    <!--AQUI ENTRAN LAS OPCIONES-->
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="estadoPersonal" class="form-label">Estado Personal</label>
+                <select class="form-select" id="estadoPersonal" name="estadoPersonal" required>
+                    <!--AQUI ENTRAN LAS OPCIONES-->
+                    <option value="0">Activo</option>
+                    <option value="1">Inactivo</option>
+                </select>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='../personal_view.html'">Volver</button>
+                <div>
+                    <button type="submit" class="btn btn-primary" id="registerButton">Registrar Personal</button>
+                    <button type="button" class="btn btn-success" id="updateButton" style="display:none;" onclick="updatePersonal()">Actualizar Personal</button>
+                    <button type="button" class="btn btn-danger" id="deleteButton" style="display:none;" onclick="deletePersonal()">Eliminar Personal</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        document.getElementById('personalForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch('../../../backend/pages/form/personal/personal_new.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    Swal.fire(
+                        '¡Registrado!',
+                        'El personal ha sido registrado.',
+                        'success'
+                    ).then(() => {
+                        window.location.href = '../personal_view.html';
+                    });
+                } else {
+                    Swal.fire(
+                        'Error',
+                        'Hubo un problema al registrar el personal.',
+                        'error'
+                    );
+                }
+            })
+            .catch(error => {
+                Swal.fire(
+                    'Error',
+                    'Hubo un problema al registrar el personal.',
+                    'error'
+                );
+            });
+        });
+
+        function loadPersonalData() {
+            const params = new URLSearchParams(window.location.search);
+            const personalid = params.get('personalid');
+            
+            if (personalid) {
+                fetch(`../../../backend/pages/form/personal/personal_get.php?personalid=${personalid}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('personalid').value = data.personalid;
+                        document.getElementById('dniPersonal').value = data.dniPersonal;
+                        document.getElementById('personalNombres').value = data.nombres;
+                        document.getElementById('apellidoPaterno').value = data.apellidoPaterno;
+                        document.getElementById('apellidoMaterno').value = data.apellidoMaterno;
+                        document.getElementById('fechaNac').value = data.fechaNac;
+                        document.getElementById('generoPersonal').value = data.generoPersonal;
+                        document.getElementById('estadoCivil').value = data.estadoCivil;
+                        document.getElementById('rolePersonal').value = data.rolePersonal;
+                        document.getElementById('estadoPersonal').value = data.estadoPersonal;
+                
+                        document.getElementById('registerButton').style.display = 'none';
+                        document.getElementById('updateButton').style.display = 'inline-block';
+                        document.getElementById('deleteButton').style.display = 'inline-block';
+
+                        hideSpinner();
+                    })
+                    .catch(error => { console.error('Error al cargar los datos del personal:', error); hideSpinner(); });
+            } else {
+                hideSpinner();
+            }
+        }
+
+        function updatePersonal() {
+            const formData = new FormData(document.getElementById('personalForm'));
+
+            fetch('../../../backend/pages/form/personal/personal_update.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    Swal.fire(
+                        '¡Actualizado!',
+                        'El personal ha sido actualizado.',
+                        'success'
+                    ).then(() => {
+                        window.location.href = '../personal_view.html';
+                    });
+                } else {
+                    Swal.fire(
+                        'Error',
+                        'Hubo un problema al actualizar el personal: ' + result.error,
+                        'error'
+                    );
+                }
+            })
+            .catch(error => {
+                Swal.fire(
+                    'Error',
+                    'Hubo un problema al actualizar el personal.',
+                    'error'
+                );
+            });
+        }
+    
+        function deletePersonal() {
+            const personalid= document.getElementById('personalid').value;
+
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminarlo'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`../../../backend/pages/form/personal/personal_delete.php`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `personalid=${personalid}`
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            Swal.fire(
+                                '¡Eliminado!',
+                                'El personal ha sido eliminado.',
+                                'success'
+                            ).then(() => {
+                                window.location.href = '../personal_view.html';
+                            });
+                        } else {
+                            Swal.fire(
+                                'Error',
+                                'Hubo un problema al eliminar el personal.',
+                                'error'
+                            );
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire(
+                            'Error',
+                            'Hubo un problema al eliminar el personal.',
+                            'error'
+                        );
+                    });
+                }
+            });
+        }
+
+        function hideSpinner() {
+            setTimeout(function() {
+                document.getElementById('spinner-container').classList.add('hidden');
+            }, 1000);
+        }
+
+        function cerrarSesion() {
+            window.location.href = '../../../../login.html';
+        }
+    </script>
+
+</body>
+</html>
