@@ -13,12 +13,13 @@ SELECT
     ap.nameProduct,
     ap.codeAlmacen,
     ap.codeBarras,
-    ap.categoryProduct,
+    categoria.nombreDetalle AS categoryProduct,
     unidad.nombreDetalle AS unidadProducto,
     marca.nombreDetalle AS marcaProducto,
     modelo.nombreDetalle AS modeloProducto,
     IF(ap.statusProducto = 0, 'Activo', 'Inactivo') AS statusProducto
 FROM almacen_producto AS ap
+LEFT JOIN utiles_tabla_varios_detalle AS categoria ON ap.categoryProduct = categoria.detalleid
 LEFT JOIN utiles_tabla_varios_detalle AS unidad ON ap.unidadProducto = unidad.detalleid
 LEFT JOIN utiles_tabla_varios_detalle AS marca ON ap.marcaProducto = marca.detalleid
 LEFT JOIN utiles_tabla_varios_detalle AS modelo ON ap.modeloProducto = modelo.detalleid
