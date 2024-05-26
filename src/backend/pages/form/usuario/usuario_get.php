@@ -9,9 +9,16 @@ $usuarioid = $_GET['usuarioid'];
 
 $query = "
     SELECT 
-        *
-    FROM admin_usuario 
-    WHERE usuarioid = ?
+        au.usuarioid,
+        au.usuario,
+        au.passUser,
+        au.personalid,
+        CONCAT(p.nombres, ' ', p.apellidoPaterno, ' ', p.apellidoMaterno) AS personal,
+        au.emailPersonal,
+        au.estadoUsuario
+    FROM admin_usuario AS au
+    JOIN planillas_personal AS p ON au.personalid = p.personalid
+    WHERE au.usuarioid = ?
 ";
 
 $stmt = $conn->prepare($query);

@@ -9,12 +9,13 @@ $conn = include("../../Utils/db_connection.php");
 
 $v_sql = "
     SELECT
-        usuarioid,
-        usuario,
-        personalid,
-        emailPersonal,
-        estadoUsuario
-    FROM admin_usuario
+        au.usuarioid,
+        au.usuario,
+        CONCAT(p.nombres, ' ', p.apellidoPaterno, ' ', p.apellidoMaterno) AS personalid,
+        au.emailPersonal,
+        IF(au.estadoUsuario = 0, 'Activo', 'Inactivo') AS estadoUsuario
+    FROM admin_usuario AS au
+    LEFT JOIN planillas_personal AS p ON au.personalid = p.personalid
 ";
 $result = $conn->query($v_sql);
 
