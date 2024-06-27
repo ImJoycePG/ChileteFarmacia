@@ -342,6 +342,21 @@
         function cerrarSesion() {
             window.location.href = '../../../../login.html';
         }
+        fetch('../../../backend/pages/tabla_varios/listSexo.php')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('generoPersonal').innerHTML = data;
+            });
+        fetch('../../../backend/pages/tabla_varios/listEstadoCivil.php')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('estadoCivil').innerHTML = data;
+            });
+        fetch('../../../backend/pages/tabla_varios/listRolLaboral.php')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('rolePersonal').innerHTML = data;
+            });
     </script>
 
 </body>

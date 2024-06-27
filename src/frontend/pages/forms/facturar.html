@@ -430,6 +430,7 @@
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>New</td>
+                
                 <td><input type="text" class="form-control" name="productoid" id="productoid"/></td>
                 <td><input type="number" class="form-control" name="cantidad" id="cantidad" oninput="calcularTotal()"/></td>
                 <td><input type="number" class="form-control" name="precUnit" id="precUnit" oninput="calcularTotal()"/></td>
@@ -545,5 +546,7 @@
             document.getElementById("precTotal").value = total.toFixed(4);
         }
     </script>
+
+
 </body>
 </html>
