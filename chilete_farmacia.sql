@@ -17,7 +17,6 @@ CREATE TABLE planillas_personal (
     rolePersonal INT(11) DEFAULT NULL,
     estadoPersonal INT(1) NOT NULL
 );
-
 CREATE TABLE planillas_medicos (
 	medicoid INT(11) NOT NULL auto_increment PRIMARY KEY,
     numColegiatura CHAR(22) NOT NULL,
@@ -52,7 +51,6 @@ CREATE TABLE utiles_tabla_varios (
 	estadoTabla INT(1) NOT NULL,
     UNIQUE KEY (tablaNombre)
 );
-
 CREATE TABLE utiles_tabla_varios_detalle (
 	detalleid INT(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
     nombreDetalle VARCHAR(255) NOT NULL,
@@ -60,6 +58,17 @@ CREATE TABLE utiles_tabla_varios_detalle (
     tablaid INT(11) NOT NULL,
     FOREIGN KEY (tablaid) REFERENCES utiles_tabla_varios(tablaid)
 );
+CREATE TABLE utiles_tipodeventa (
+    tipovtaid INT(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    nombreTipoVta VARCHAR(255) NOT NULL,
+    esCredito INT(1) NOT NULL,
+    serie CHAR(4) NOT NULL,
+    correlativo INT(11) DEFAULT 0,
+    ordenTipoVta INT(11) DEFAULT NULL
+);
+
+INSERT INTO utiles_tipodeventa (nombreTipoVta, esCredito, serie, correlativo, ordenTipoVta)
+VALUES('Factura Electronica', 0, 'FE01', 0, 1);
 
 /**
   * COMERCIAL
@@ -111,17 +120,30 @@ CREATE TABLE almacen_producto (
     statusProducto INT(1) NOT NULL
 );
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/**
+  * PUNTO DE VENTA
+  */
+CREATE TABLE ptovta_facturacion (
+    facturaid INT(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    documento CHAR(22) NOT NULL,
+    clienteid INT(11) NOT NULL,
+    direccion_fiscal VARCHAR(255) DEFAULT NULL,
+    tipovtaid INT(11) NOT NULL,
+    formaPago INT(11) NOT NULL,
+    serie CHAR(4) NOT NULL,
+    correlativo CHAR(11) NOT NULL,
+    totalPago DECIMAL(65, 4) DEFAULT NULL,
+    emision DATETIME NOT NULL,
+    confirmado INT(1) NOT NULL,
+    FOREIGN KEY (clienteid) REFERENCES comercial_cliente(clienteid),
+    FOREIGN KEY (tipovtaid) REFERENCES utiles_tipodeventa(tipovtaid)
+);
+CREATE TABLE ptovta_facturacion_detalle (
+    detalleid INT(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    productoid INT(11) NOT NULL,
+    cantidad DECIMAL(11, 2) NOT NULL,
+    precUnit DECIMAL(11, 4) NOT NULL,
+    precTotal DECIMAL(11, 4) NOT NULL,
+    facturaid INT(11) NOT NULL,    
+    FOREIGN KEY (facturaid) REFERENCES ptovta_facturacion(facturaid)
+);
