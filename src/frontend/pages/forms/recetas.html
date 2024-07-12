@@ -4,17 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../../css/StyleNav.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
     <link href="https://necolas.github.io/normalize.css/8.0.1/normalize.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
-    <title>Administración Usuario | Chilete Farmacia</title>
-</head>
-<body onload="hideSpinner(); loadUsuarioData();">
+    <title>Receta Médica | Chilete Farmacia</title>
+</head> 
+<body onload="hideSpinner(); loadRecetaData();">
     <div id="spinner-container" class="spinner-container">
         <div class="spinner-border text-warning" role="status">
             <span class="visually-hidden">Loading...</span>
@@ -117,57 +114,39 @@
         </nav>
     </header>
     
-    <div class="container">
-        <h2 class="text-center mb-4 mt-4">Sistema de Usuario</h2>
-        <form id="usuarioForm" action="../../../backend/pages/form/usuario/usuario_new.php" method="post">
-            <input type="hidden" id="usuarioid" name="usuarioid">
+    <div class="container"> 
+        <h2 class="text-center mb-4 mt-4">Receta</h2>
+        <form id="recetasForm" action="../../../backend/pages/form/recetas/recetas_new.php" method="post">
+            <input type="hidden" id="recetaid " name="recetaid ">
 
             <div class="mb-3">
-                <label for="usuario" class="form-label">Usuario</label>
-                <input type="text" class="form-control" id="usuario" name="usuario" required>
-            </div>
-            <div class="mb-3">
-                <label for="passUser" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="passUser" name="passUser" required>
+                <label for="codigoReceta" class="form-label">Código Receta</label>
+                <input type="text" class="form-control" id="codigoReceta" name="codigoReceta" required>
             </div>
 
             <div class="mb-3">
-                <label for="personalid" class="form-label">Personal</label>
-                <input type="text" class="form-control" id="personal" name="personal" required>
-                <input type="hidden" id="personalid" name="personalid" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="emailPersonal" class="form-label">E-Mail</label>
-                <input type="email" class="form-control" id="emailPersonal" name="emailPersonal">
-            </div>
-            
-            <div class="mb-3">
-                <label for="estadoUsuario" class="form-label">Estado Usuario</label>
-                <select class="form-select" id="estadoUsuario" name="estadoUsuario" required>
-                    <option value="0">Activo</option>
-                    <option value="1">Inactivo</option>
-                </select>
+                <label for="fotoReceta" class="form-label">Foto Receta</label>
+                <input type="file" accept="image/png, image/jpeg, image/jpg, image/webp" class="form-control" id="fotoReceta" name="fotoReceta" required>
             </div>
 
             <div class="d-flex justify-content-between">
-                <button type="button" class="btn btn-secondary" onclick="window.location.href='../usuario_view.html'">Volver</button>
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='../recetas_view.html'">Volver</button>
                 <div>
                     <button type="submit" class="btn btn-primary" id="registerButton">Registrar Usuario</button>
-                    <button type="button" class="btn btn-success" id="updateButton" style="display:none;" onclick="updateUsuario()">Actualizar Usuario</button>
-                    <button type="button" class="btn btn-danger" id="deleteButton" style="display:none;" onclick="deleteUsuario()">Eliminar Usuario</button>
+                    <button type="button" class="btn btn-success" id="updateButton" style="display:none;" onclick="updateReceta()">Actualizar Receta</button>
+                    <button type="button" class="btn btn-danger" id="deleteButton" style="display:none;" onclick="deleteReceta()">Eliminar Receta</button>
                 </div>
             </div>
         </form>
     </div>
     
     <script>
-        document.getElementById('usuarioForm').addEventListener('submit', function(event) {
+        document.getElementById('recetasForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
             const formData = new FormData(this);
 
-            fetch('../../../backend/pages/form/usuario/usuario_new.php', {
+            fetch('../../../backend/pages/form/recetas/recetas_new.php', {
                 method: 'POST',
                 body: formData
             })
@@ -176,15 +155,15 @@
                 if (result.success) {
                     Swal.fire(
                         '¡Registrado!',
-                        'El usuario ha sido registrado.',
+                        'La receta ha sido registrada.',
                         'success'
                     ).then(() => {
-                        window.location.href = '../usuario_view.html';
+                        window.location.href = '../recetas_view.html';
                     });
                 } else {
                     Swal.fire(
                         'Error',
-                        'Hubo un problema al registrar el usuario.',
+                        'Hubo un problema al registrar la receta.',
                         'error'
                     );
                 }
@@ -192,45 +171,40 @@
             .catch(error => {
                 Swal.fire(
                     'Error',
-                    'Hubo un problema al registrar el usuario.',
+                    'Hubo un problema al registrar la receta.',
                     'error'
                 );
             });
         });
 
-        function loadUsuarioData() {
+        function loadRecetaData() {
             const params = new URLSearchParams(window.location.search);
-            const usuarioid = params.get('usuarioid');
+            const recetaid = params.get('recetaid');
             
-            if (usuarioid) {
-                fetch(`../../../backend/pages/form/usuario/usuario_get.php?usuarioid=${usuarioid}`)
+            if (recetaid) {
+                fetch(`../../../backend/pages/form/recetas/recetas_get.php?recetaid=${recetaid}`)
                     .then(response => response.json())
                     .then(data => {
-                        document.getElementById('usuarioid').value = data.usuarioid;
-                        document.getElementById('usuario').value = data.usuario;
-                        document.getElementById('passUser').value = data.passUser;
-                        document.getElementById('personalid').value = data.personalid;
-                        document.getElementById('personal').value = data.personal;
-                        document.getElementById('emailPersonal').value = data.emailPersonal;
-                        document.getElementById('estadoUsuario').value = data.estadoUsuario;
-                            
-                
+                        document.getElementById('recetaid').value = data.recetaid;
+                        document.getElementById('codigoReceta').value = data.codigoReceta;
+                        document.getElementById('fotoReceta').value = data.fotoReceta;
+
                         document.getElementById('registerButton').style.display = 'none';
                         document.getElementById('updateButton').style.display = 'inline-block';
                         document.getElementById('deleteButton').style.display = 'inline-block';
 
                         hideSpinner();
                     })
-                    .catch(error => { console.error('Error al cargar los datos del usuario:', error); hideSpinner(); });
+                    .catch(error => { console.error('Error al cargar los datos de la receta:', error); hideSpinner(); });
             } else {
                 hideSpinner();
             }
         }
 
-        function updateUsuario() {
-            const formData = new FormData(document.getElementById('usuarioForm'));
+        function updateReceta() {
+            const formData = new FormData(document.getElementById('recetasForm'));
 
-            fetch('../../../backend/pages/form/usuario/usuario_update.php', {
+            fetch('../../../backend/pages/form/recetas/recetas_update.php', {
                 method: 'POST',
                 body: formData
             })
@@ -239,15 +213,15 @@
                 if (result.success) {
                     Swal.fire(
                         '¡Actualizado!',
-                        'El usuario ha sido actualizado.',
+                        'La receta ha sido actualizada.',
                         'success'
                     ).then(() => {
-                        window.location.href = '../usuario_view.html';
+                        window.location.href = '../recetas_view.html';
                     });
                 } else {
                     Swal.fire(
                         'Error',
-                        'Hubo un problema al actualizar el usuario: ' + result.error,
+                        'Hubo un problema al actualizar la receta: ' + result.error,
                         'error'
                     );
                 }
@@ -255,14 +229,14 @@
             .catch(error => {
                 Swal.fire(
                     'Error',
-                    'Hubo un problema al actualizar el usuario.',
+                    'Hubo un problema al actualizar la receta.',
                     'error'
                 );
             });
         }
     
-        function deleteUsuario() {
-            const usuarioid= document.getElementById('usuarioid').value;
+        function deleteReceta() {receta
+            const recetaid = document.getElementById('recetaid').value;
 
             Swal.fire({
                 title: '¿Estás seguro?',
@@ -274,26 +248,26 @@
                 confirmButtonText: 'Sí, eliminarlo'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    fetch(`../../../backend/pages/form/usuario/usuario_delete.php`, {
+                    fetch(`../../../backend/pages/form/recetas/recetas_delete.php`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',
                         },
-                        body: `usuarioid=${usuarioid}`
+                        body: `recetaid=${recetaid}`
                     })
                     .then(response => {
                         if (response.ok) {
                             Swal.fire(
                                 '¡Eliminado!',
-                                'El usuario ha sido eliminado.',
+                                'La receta ha sido eliminada.',
                                 'success'
                             ).then(() => {
-                                window.location.href = '../usuario_view.html';
+                                window.location.href = '../recetas_view.html';
                             });
                         } else {
                             Swal.fire(
                                 'Error',
-                                'Hubo un problema al eliminar el usuario.',
+                                'Hubo un problema al eliminar la receta.',
                                 'error'
                             );
                         }
@@ -301,7 +275,7 @@
                     .catch(error => {
                         Swal.fire(
                             'Error',
-                            'Hubo un problema al eliminar el usuario.',
+                            'Hubo un problema al eliminar la receta.',
                             'error'
                         );
                     });
@@ -318,33 +292,23 @@
         function cerrarSesion() {
             window.location.href = '../../../../login.html';
         }
-    </script>
-    <script>
-        $(function() {
-            $("#personal").autocomplete({
-                source: function(request, response) {
-                    $.ajax({
-                        url: "../../../backend/pages/autocomplete/personal_search.php",
-                        data: { term: request.term },
-                        dataType: "json",
-                        success: function(data) {
-                            response($.map(data, function(item) {
-                                return {
-                                    label: item.nombre_completo,
-                                    value: item.nombre_completo,
-                                    id: item.personalid
-                                };
-                            }));
-                        }
-                    });
-                },
-                select: function(event, ui) {
-                    $("#personal").val(ui.item.value);
-                    $("#personalid").val(ui.item.id);
-                    return false;
-                }
+
+        fetch('../../../backend/pages/tabla_varios/listTipoDocumento.php')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('tipodoc').innerHTML = data;
             });
-        });
+        fetch('../../../backend/pages/tabla_varios/listTipoAuxiliar.php')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('tipoAux').innerHTML = data;
+            });
+        fetch('../../../backend/pages/tabla_varios/listPaises.php')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('paisAux').innerHTML = data;
+            });
     </script>
+
 </body>
 </html>

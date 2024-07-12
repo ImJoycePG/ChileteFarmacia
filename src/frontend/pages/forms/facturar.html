@@ -79,7 +79,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="../facturar_view.html">Facturar Venta</a></li>
-                                <li><a class="dropdown-item" href="#">Receta Médica</a></li>
+                                <li><a class="dropdown-item" href="../recetas_view.html">Receta Médica</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -407,10 +407,13 @@
                             const tr = document.createElement('tr');
                             tr.innerHTML = `
                                 <td>${row.detalleid}</td>
-                                <td><input type="text" class="form-control" value="${row.productoid}" /></td>
-                                <td><input type="number" class="form-control" value="${row.cantidad}" /></td>
-                                <td><input type="number" class="form-control" value="${row.precUnit}" /></td>
-                                <td><input type="number" class="form-control" value="${row.precTotal}" /></td>
+                                <td>
+                                    <input type="hidden" class="form-control product-id" name="productoid" value="${row.productoid}"/>
+                                    <input type="text" class="form-control product-name" name="productname" value="${row.nameProduct}" />
+                                </td>
+                                <td><input type="number" class="form-control" value="${row.cantidad}" step="any"/></td>
+                                <td><input type="number" class="form-control" value="${row.precUnit}" step="any"/></td>
+                                <td><input type="number" class="form-control" value="${row.precTotal}" step="any"/></td>
                                 <td>
                                     <button class="btn btn-danger btn-sm" onclick="deleteRow(${row.detalleid}, this)">Eliminar</button>
                                 </td>
@@ -431,15 +434,43 @@
             tr.innerHTML = `
                 <td>New</td>
                 
-                <td><input type="text" class="form-control" name="productoid" id="productoid"/></td>
-                <td><input type="number" class="form-control" name="cantidad" id="cantidad" oninput="calcularTotal()"/></td>
-                <td><input type="number" class="form-control" name="precUnit" id="precUnit" oninput="calcularTotal()"/></td>
-                <td><input type="number" class="form-control" name="precTotal" id="precTotal" readonly/></td>
+                <td>
+                    <input type="hidden" class="form-control product-id" name="productoid"/>
+                    <input type="text" class="form-control product-name" name="productname"/>
+                </td>
+                <td><input type="number" class="form-control" name="cantidad" id="cantidad" oninput="calcularTotal()" step="any"/></td>
+                <td><input type="number" class="form-control" name="precUnit" id="precUnit" oninput="calcularTotal()" step="any"/></td>
+                <td><input type="number" class="form-control" name="precTotal" id="precTotal" step="any" readonly/></td>
                 <td>
                     <button class="btn btn-danger btn-sm" onclick="deleteRow(null, this)">Eliminar</button>
                 </td>
             `;
             tableBody.appendChild(tr);
+
+            $(".product-name").autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: "../../../backend/pages/autocomplete/producto_search.php",
+                        data: { term: request.term },
+                        dataType: "json",
+                        success: function(data) {
+                            response($.map(data, function(item) {
+                                return {
+                                    label: item.nameProduct,
+                                    value: item.nameProduct,
+                                    id: item.productoid
+                                };
+                            }));
+                        }
+                    });
+                },
+                select: function(event, ui) {
+                    const $row = $(this).closest('tr');
+                    $row.find('input[name="productname"]').val(ui.item.value);
+                    $row.find('input[name="productoid"]').val(ui.item.id);
+                    return false;
+                }
+            });
         }
 
         function deleteRow(detalleid, button) {
@@ -494,9 +525,9 @@
                 tableData.push({
                     detalleid: row.children[0].innerText === 'New' ? null : row.children[0].innerText,
                     productoid: inputs[0].value,
-                    cantidad: inputs[1].value,
-                    precUnit: inputs[2].value,
-                    precTotal: inputs[3].value,
+                    cantidad: inputs[2].value,
+                    precUnit: inputs[3].value,
+                    precTotal: inputs[4].value,
                     facturaid : tablaid
                 });
             });
@@ -537,8 +568,8 @@
         }
 
         function calcularTotal() {
-            let cantidad = document.getElementById("cantidad").value;
-            let precUnit = document.getElementById("precUnit").value;
+            let cantidad = parseFloat(document.getElementById("cantidad").value);
+            let precUnit = parseFloat(document.getElementById("precUnit").value);
             let total = 0;
             if(cantidad && precUnit) {
                 total = cantidad * precUnit;

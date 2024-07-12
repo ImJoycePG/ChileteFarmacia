@@ -76,7 +76,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="../facturar_view.html">Facturar Venta</a></li>
-                                <li><a class="dropdown-item" href="#">Receta Médica</a></li>
+                                <li><a class="dropdown-item" href="../recetas_view.html">Receta Médica</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -186,7 +186,7 @@
                 if (result.success) {
                     Swal.fire(
                         '¡Registrado!',
-                        'El medico ha sido registrado.',
+                        'El médico ha sido registrado.',
                         'success'
                     ).then(() => {
                         window.location.href = '../medicos_view.html';
@@ -194,7 +194,7 @@
                 } else {
                     Swal.fire(
                         'Error',
-                        'Hubo un problema al registrar el medico.',
+                        'Hubo un problema al registrar el médico.',
                         'error'
                     );
                 }
@@ -202,7 +202,7 @@
             .catch(error => {
                 Swal.fire(
                     'Error',
-                    'Hubo un problema al registrar el medico.',
+                    'Hubo un problema al registrar el médico.',
                     'error'
                 );
             });
@@ -232,7 +232,7 @@
 
                         hideSpinner();
                     })
-                    .catch(error => { console.error('Error al cargar los datos del medico:', error); hideSpinner(); });
+                    .catch(error => { console.error('Error al cargar los datos del médico:', error); hideSpinner(); });
             } else {
                 hideSpinner();
             }
@@ -250,7 +250,7 @@
                 if (result.success) {
                     Swal.fire(
                         '¡Actualizado!',
-                        'El medico ha sido actualizado.',
+                        'El médico ha sido actualizado.',
                         'success'
                     ).then(() => {
                         window.location.href = '../medicos_view.html';
@@ -258,7 +258,7 @@
                 } else {
                     Swal.fire(
                         'Error',
-                        'Hubo un problema al actualizar el medico.',
+                        'Hubo un problema al actualizar el médico.',
                         'error'
                     );
                 }
@@ -266,7 +266,7 @@
             .catch(error => {
                 Swal.fire(
                     'Error',
-                    'Hubo un problema al actualizar el medico.',
+                    'Hubo un problema al actualizar el médico.',
                     'error'
                 );
             });
@@ -296,7 +296,7 @@
                         if (response.ok) {
                             Swal.fire(
                                 '¡Eliminado!',
-                                'El medico ha sido eliminado.',
+                                'El médico ha sido eliminado.',
                                 'success'
                             ).then(() => {
                                 window.location.href = '../medicos_view.html';
@@ -304,7 +304,7 @@
                         } else {
                             Swal.fire(
                                 'Error',
-                                'Hubo un problema al eliminar el medico.',
+                                'Hubo un problema al eliminar el médico.',
                                 'error'
                             );
                         }
@@ -312,7 +312,7 @@
                     .catch(error => {
                         Swal.fire(
                             'Error',
-                            'Hubo un problema al eliminar el medico.',
+                            'Hubo un problema al eliminar el médico.',
                             'error'
                         );
                     });

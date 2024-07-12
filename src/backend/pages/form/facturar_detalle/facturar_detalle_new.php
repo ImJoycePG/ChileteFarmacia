@@ -34,7 +34,7 @@ foreach ($data['tableData'] as $row) {
             echo json_encode(["success" => false, "error" => $conn->error]);
             exit();
         }
-        $stmt->bind_param("iiiiii", $productoid, $cantidad, $precUnit, $precTotal, $facturaid, $detalleid);
+        $stmt->bind_param("idddii", $productoid, $cantidad, $precUnit, $precTotal, $facturaid, $detalleid);
     } else {
         $query = "INSERT INTO ptovta_facturacion_detalle (productoid, cantidad, precUnit, precTotal, facturaid) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($query);
@@ -44,7 +44,7 @@ foreach ($data['tableData'] as $row) {
             exit();
         }
 
-        $stmt->bind_param("iiiii", $productoid, $cantidad, $precUnit, $precTotal, $facturaid);
+        $stmt->bind_param("idddi", $productoid, $cantidad, $precUnit, $precTotal, $facturaid);
     }
 
     if (!$stmt->execute()) {

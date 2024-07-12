@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <title>Planillas Medicos | Chilete Farmacia</title>
+    <title>Planillas Médicos | Chilete Farmacia</title>
 </head>
 <body onload="hideSpinner(); cargarMedicos();">
     <div id="spinner-container" class="spinner-container">
@@ -81,7 +81,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="./facturar_view.html">Facturar Venta</a></li>
-                                <li><a class="dropdown-item" href="#">Receta Médica</a></li>
+                                <li><a class="dropdown-item" href="./recetas_view.html">Receta Médica</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -124,7 +124,7 @@
 
 
     <div class="container mt-5">
-        <h2 class="text-center mb-4">Lista de Medicos</h2>
+        <h2 class="text-center mb-4">Lista de Médicos</h2>
         <div class="row mb-3">
             <div class="col-md-6">
                 <input type="text" id="searchInput" class="form-control" placeholder="Buscar en la tabla...">
@@ -158,7 +158,7 @@
                     document.getElementById('medicosTable').innerHTML = data;
                     hideSpinner();
                 })
-                .catch(error => {console.error('Error al cargar los medicos:', error); hideSpinner();});
+                .catch(error => {console.error('Error al cargar los médicos:', error); hideSpinner();});
         }
 
         function refreshView() {

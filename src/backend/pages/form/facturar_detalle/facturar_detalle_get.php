@@ -9,8 +9,14 @@ $tablaid = $_GET['facturaid'];
 
 $query = "
     SELECT 
-        *
-    FROM ptovta_facturacion_detalle 
+        pfd.detalleid,
+        pfd.productoid,
+        ap.nameProduct as nameProduct,
+        pfd.cantidad,
+        pfd.precUnit,
+        pfd.precTotal
+    FROM ptovta_facturacion_detalle AS pfd
+    INNER JOIN almacen_producto AS ap ON pfd.productoid = ap.productoid
     WHERE facturaid = ?
 ";
 
