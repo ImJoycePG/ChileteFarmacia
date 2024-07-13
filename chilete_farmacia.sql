@@ -120,6 +120,51 @@ CREATE TABLE almacen_producto (
     statusProducto INT(1) NOT NULL
 );
 
+CREATE TABLE almacen_inventario_inicial(
+	inventarioid INT(11) PRIMARY KEY auto_increment NOT NULL,
+    localid INT(11) NOT NULL,
+    emisionInicial DATETIME NOT NULL,
+    statusInventario INT(1) DEFAULT NULL,
+    FOREIGN KEY (localid) REFERENCES comercial_locales(localid)
+);
+
+CREATE TABLE almacen_inventario_inicial_detalle(
+	invdetalleid INT(11) PRIMARY KEY auto_increment NOT NULL,
+    inventarioid INT(11) NOT NULL,
+    productoid INT(11) NOT NULL,
+    cantidad DECIMAL(11, 2) NOT NULL,
+    FOREIGN KEY (inventarioid) REFERENCES almacen_inventario_inicial(inventarioid),
+    FOREIGN KEY (productoid) REFERENCES almacen_producto(productoid)
+);
+
+CREATE TABLE almacen_movimientos (
+	movimientoid INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    motivoTraslado INT(11) NOT NULL,
+    fechaMovimiento DATE NOT NULL,
+    tipoDoc INT(11) NOT NULL
+);
+
+CREATE TABLE almacen_movimientos_detalle (
+	detmovimientoid INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    movimientoid INT(11) NOT NULL,
+    productoid INT(11) NOT NULL,
+    cantidad DECIMAL(11, 2) NOT NULL
+);
+
+CREATE TABLE almacen_orden_compra (
+	ordenid INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    auxiliarid INT(11) NOT NULL,
+	fechaOrden DATE NOT NULL
+);
+
+CREATE TABLE almacen_orden_compra_detalle (
+	detordenid INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    ordenid INT(11) NOT NULL,
+    productoid INT(11) NOT NULL,
+    cantidad DECIMAL(11, 2) NOT NULL
+);
+
+
 /**
   * PUNTO DE VENTA
   */
@@ -146,4 +191,10 @@ CREATE TABLE ptovta_facturacion_detalle (
     precTotal DECIMAL(11, 4) NOT NULL,
     facturaid INT(11) NOT NULL,    
     FOREIGN KEY (facturaid) REFERENCES ptovta_facturacion(facturaid)
+);
+
+CREATE TABLE ptovta_receta_medica(
+	recetaid INT(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    codigoReceta CHAR(22) NOT NULL,
+    fotoReceta LONGTEXT
 );
