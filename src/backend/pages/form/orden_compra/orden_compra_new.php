@@ -7,12 +7,11 @@ if (!isset($_SESSION["username"])) {
 
 $conn = include("../../../../Utils/db_connection.php");
 
-$codigoReceta = $_POST['codigoReceta'] ?? null; 
-$fotoReceta = $_POST['fotoReceta'] ?? null;
-$fotoReceta = base64_encode($fotoReceta);
+$auxiliarid = $_POST['auxiliarid'] ?? null; 
+$fechaOrden = $_POST['fechaOrden'] ?? null;
 
-if (isset($codigoReceta)) {
-    $query = "INSERT INTO ptovta_receta_medica (codigoReceta, fotoReceta) VALUES (?, ?)";
+if (isset($auxiliarid, $fechaOrden)) {
+    $query = "INSERT INTO almacen_orden_compra (auxiliarid, fechaOrden) VALUES (?, ?)";
     $stmt = $conn->prepare($query);
 
     if ($stmt === false) {
@@ -20,7 +19,7 @@ if (isset($codigoReceta)) {
         exit();
     }
 
-    $stmt->bind_param("ss", $codigoReceta, $fotoReceta);
+    $stmt->bind_param("is", $auxiliarid, $fechaOrden);
 
     if ($stmt->execute()) {
         echo json_encode(["success" => true]);

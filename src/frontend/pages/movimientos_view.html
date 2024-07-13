@@ -9,9 +9,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <title>Receta Médica | Chilete Farmacia</title>
+    <title>Movimientos de Almacén | Chilete Farmacia</title>
 </head>
-<body onload="hideSpinner(); cargarRecetas();">
+<body onload="hideSpinner(); cargarMovimientos();">
     <div id="spinner-container" class="spinner-container">
         <div class="spinner-border text-warning" role="status">
             <span class="visually-hidden">Loading...</span>
@@ -124,13 +124,13 @@
 
 
     <div class="container mt-5">
-        <h2 class="text-center mb-4">Lista de Recetas Médicas</h2>
+        <h2 class="text-center mb-4">Lista de Movimientos de Almacén</h2>
         <div class="row mb-3">
             <div class="col-md-6">
                 <input type="text" id="searchInput" class="form-control" placeholder="Buscar en la tabla...">
             </div>
             <div class="col-md-6 text-end">
-                <a class="btn btn-success" type="button" id="newButton" href="./forms/recetas.html">Nueva</a>
+                <a class="btn btn-success" type="button" id="newButton" href="./forms/movimientos.html">Nueva</a>
                 <button class="btn btn-primary" type="button" id="refreshButton" onclick="refreshView()">Refrescar</button>
             </div>
         </div>
@@ -138,30 +138,31 @@
             <thead>
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">Código Receta</th>
-                    <th scope="col">Acciones</th>
+                    <th scope="col">Traslado</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Tipo de Documento</th>
                 </tr>
             </thead>
-            <tbody id="recetamedicaTable">
+            <tbody id="movimientoAlmacenTable">
                 
             </tbody>
         </table>
     </div>
 
     <script>
-        function cargarRecetas() {
-            fetch('../../backend/pages/recetas_view.php')
+        function cargarMovimientos() {
+            fetch('../../backend/pages/movimientos_view.php')
                 .then(response => response.text())
                 .then(data => {
-                    document.getElementById('recetamedicaTable').innerHTML = data;
+                    document.getElementById('movimientoAlmacenTable').innerHTML = data;
                     hideSpinner();
                 })
-                .catch(error => {console.error('Error al cargar las recetas:', error); hideSpinner();});
+                .catch(error => {console.error('Error al cargar los movimientos:', error); hideSpinner();});
         }
 
         function refreshView() {
             document.getElementById('spinner-container').classList.remove('hidden');
-            cargarRecetas();
+            cargarMovimientos();
         }
 
         function hideSpinner() {
@@ -172,7 +173,7 @@
 
         document.getElementById('searchInput').addEventListener('input', function () {
             var filtro = this.value.toLowerCase();
-            var filas = document.querySelectorAll('#recetamedicaTable tr');
+            var filas = document.querySelectorAll('#movimientoAlmacenTable tr');
 
             filas.forEach(function (fila) {
                 var columnas = fila.querySelectorAll('td');

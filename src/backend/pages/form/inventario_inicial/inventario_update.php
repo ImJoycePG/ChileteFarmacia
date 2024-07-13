@@ -12,10 +12,10 @@ $emisionInicial = $_POST['emisionInicial'];
 $statusInventario = $_POST['statusInventario'];
 
 
-//$query = "UPDATE almacen_producto SET nameProduct = ?, descripcionProduct = ?, codeAlmacen = ?, codeBarras = ?, categoryProduct = ?, unidadProducto = ?, marcaProducto = ?, modeloProducto = ?, statusProducto = ? WHERE productoid = ?";
-/*
+$query = "UPDATE almacen_inventario_inicial SET localid = ?, emisionInicial = ?, statusInventario = ? WHERE inventarioid = ?";
+
 $stmt = $conn->prepare($query);
-$stmt->bind_param("ssssiiiiii", $name, $description, $codeAlmacen, $codeBarras, $categoryProduct, $unidad, $marca, $modelo, $status, $productoid);
+$stmt->bind_param("isii", $localid, $emisionInicial, $statusInventario, $inventarioid);
 
 if ($stmt->execute()) {
     echo json_encode(["success" => true]);
@@ -24,5 +24,5 @@ if ($stmt->execute()) {
 }
 
 $stmt->close();
-*/
+
 $conn->close();

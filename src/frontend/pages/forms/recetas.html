@@ -49,9 +49,9 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="../productos_view.html">Registro de Productos</a></li>
-                                <li><a class="dropdown-item" href="#">Inventario Inicial</a></li>
-                                <li><a class="dropdown-item" href="#">Movimientos de Almacén</a></li>
-                                <li><a class="dropdown-item" href="#">Orden de Compra</a></li>
+                                <li><a class="dropdown-item" href="../inventario_view.html">Inventario Inicial</a></li>
+                                <li><a class="dropdown-item" href="../movimientos_view.html">Movimientos de Almacén</a></li>
+                                <li><a class="dropdown-item" href="../orden_compra_view.html">Orden de Compra</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -117,7 +117,7 @@
     <div class="container"> 
         <h2 class="text-center mb-4 mt-4">Receta</h2>
         <form id="recetasForm" action="../../../backend/pages/form/recetas/recetas_new.php" method="post">
-            <input type="hidden" id="recetaid " name="recetaid ">
+            <input type="hidden" id="recetaid" name="recetaid ">
 
             <div class="mb-3">
                 <label for="codigoReceta" class="form-label">Código Receta</label>
@@ -128,12 +128,10 @@
                 <label for="fotoReceta" class="form-label">Foto Receta</label>
                 <input type="file" accept="image/png, image/jpeg, image/jpg, image/webp" class="form-control" id="fotoReceta" name="fotoReceta" required>
             </div>
-
             <div class="d-flex justify-content-between">
                 <button type="button" class="btn btn-secondary" onclick="window.location.href='../recetas_view.html'">Volver</button>
                 <div>
-                    <button type="submit" class="btn btn-primary" id="registerButton">Registrar Usuario</button>
-                    <button type="button" class="btn btn-success" id="updateButton" style="display:none;" onclick="updateReceta()">Actualizar Receta</button>
+                    <button type="submit" class="btn btn-primary" id="registerButton">Registrar Receta</button>
                     <button type="button" class="btn btn-danger" id="deleteButton" style="display:none;" onclick="deleteReceta()">Eliminar Receta</button>
                 </div>
             </div>
@@ -141,11 +139,28 @@
     </div>
     
     <script>
-        document.getElementById('recetasForm').addEventListener('submit', function(event) {
+       document.getElementById('recetasForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
             const formData = new FormData(this);
+            const fotoRecetaInput = document.getElementById('fotoReceta');
 
+            const file = fotoRecetaInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onloadend = function() {
+                    const base64String = reader.result.split(',')[1];
+                    formData.set('fotoReceta', base64String);
+
+                    submitForm(formData);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                submitForm(formData);
+            }
+        });
+
+        function submitForm(formData) {
             fetch('../../../backend/pages/form/recetas/recetas_new.php', {
                 method: 'POST',
                 body: formData
@@ -175,67 +190,39 @@
                     'error'
                 );
             });
-        });
+        }
 
         function loadRecetaData() {
             const params = new URLSearchParams(window.location.search);
             const recetaid = params.get('recetaid');
-            
+
             if (recetaid) {
                 fetch(`../../../backend/pages/form/recetas/recetas_get.php?recetaid=${recetaid}`)
                     .then(response => response.json())
                     .then(data => {
                         document.getElementById('recetaid').value = data.recetaid;
                         document.getElementById('codigoReceta').value = data.codigoReceta;
-                        document.getElementById('fotoReceta').value = data.fotoReceta;
+
 
                         document.getElementById('registerButton').style.display = 'none';
-                        document.getElementById('updateButton').style.display = 'inline-block';
                         document.getElementById('deleteButton').style.display = 'inline-block';
 
                         hideSpinner();
                     })
-                    .catch(error => { console.error('Error al cargar los datos de la receta:', error); hideSpinner(); });
+                    .catch(error => {
+                        console.error('Error al cargar los datos de la receta:', error);
+                        hideSpinner();
+                    });
             } else {
                 hideSpinner();
             }
         }
 
-        function updateReceta() {
-            const formData = new FormData(document.getElementById('recetasForm'));
 
-            fetch('../../../backend/pages/form/recetas/recetas_update.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(result => {
-                if (result.success) {
-                    Swal.fire(
-                        '¡Actualizado!',
-                        'La receta ha sido actualizada.',
-                        'success'
-                    ).then(() => {
-                        window.location.href = '../recetas_view.html';
-                    });
-                } else {
-                    Swal.fire(
-                        'Error',
-                        'Hubo un problema al actualizar la receta: ' + result.error,
-                        'error'
-                    );
-                }
-            })
-            .catch(error => {
-                Swal.fire(
-                    'Error',
-                    'Hubo un problema al actualizar la receta.',
-                    'error'
-                );
-            });
-        }
-    
-        function deleteReceta() {receta
+
+
+        
+        function deleteReceta() {
             const recetaid = document.getElementById('recetaid').value;
 
             Swal.fire({
@@ -292,22 +279,6 @@
         function cerrarSesion() {
             window.location.href = '../../../../login.html';
         }
-
-        fetch('../../../backend/pages/tabla_varios/listTipoDocumento.php')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('tipodoc').innerHTML = data;
-            });
-        fetch('../../../backend/pages/tabla_varios/listTipoAuxiliar.php')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('tipoAux').innerHTML = data;
-            });
-        fetch('../../../backend/pages/tabla_varios/listPaises.php')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('paisAux').innerHTML = data;
-            });
     </script>
 
 </body>

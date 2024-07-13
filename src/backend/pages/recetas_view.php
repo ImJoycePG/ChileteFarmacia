@@ -10,8 +10,7 @@ $conn = include("../../Utils/db_connection.php");
 $v_sql = "
     SELECT
         recetaid,
-        codigoReceta,
-        fotoReceta
+        codigoReceta
     FROM ptovta_receta_medica
 ";
 /*
@@ -28,7 +27,6 @@ if ($result->num_rows > 0) {
         echo "<tr>";
         echo "<td>" . $row['recetaid'] . "</td>";
         echo "<td>" . $row['codigoReceta'] . "</td>";
-        echo "<td>" . $row['fotoReceta'] . "</td>";
         echo "<td><a href='./forms/recetas.html?recetaid=" . $row['recetaid'] . "' class='btn btn-sm btn-primary'><i class='bi bi-highlighter'></i></a></td>";
         echo "</tr>";
     }

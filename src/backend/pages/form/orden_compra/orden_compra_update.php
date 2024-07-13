@@ -7,20 +7,20 @@ if (!isset($_SESSION["username"])) {
 
 $conn = include("../../../../Utils/db_connection.php");
 
-$codigoReceta = $_POST['codigoReceta'] ?? null; 
-$fotoReceta = $_POST['fotoReceta'] ?? null;
-$fotoReceta = base64_encode($fotoReceta);
+$ordenid = $_POST['ordenid'] ?? null; 
+$auxiliarid = $_POST['auxiliarid'] ?? null; 
+$fechaOrden = $_POST['fechaOrden'] ?? null;
 
-if (isset($codigoReceta)) {
-    $query = "INSERT INTO ptovta_receta_medica (codigoReceta, fotoReceta) VALUES (?, ?)";
+
+if (isset($ordenid, $auxiliarid, $fechaOrden)) {
+    $query = "UPDATE almacen_orden_compra SET auxiliarid = ?, fechaOrden = ? WHERE ordenid = ?";
     $stmt = $conn->prepare($query);
-
+ 
     if ($stmt === false) {
         echo json_encode(["success" => false, "error" => $conn->error]);
         exit();
     }
-
-    $stmt->bind_param("ss", $codigoReceta, $fotoReceta);
+    $stmt->bind_param("isi", $auxiliarid, $fechaOrden, $ordenid);
 
     if ($stmt->execute()) {
         echo json_encode(["success" => true]);
@@ -30,7 +30,8 @@ if (isset($codigoReceta)) {
 
     $stmt->close();
 } else {
-    echo json_encode(["success" => false, "error" => "Missing required POST data."]);
+    echo json_encode(["success" => false, "error" => "Faltan datos que completar"]);
 }
 
 $conn->close();
+?>

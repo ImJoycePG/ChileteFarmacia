@@ -10,11 +10,13 @@ $conn = include("../../Utils/db_connection.php");
 $v_sql = "
 SELECT
     p.inventarioid,
-    p.localid,
-    p.emisionInicial,
-    p.statusInventario
+    cl.nombreLocal AS localid,
+    DATE_FORMAT(p.emisionInicial, '%d/%m/%Y') AS emisionInicial,
+    IF(p.statusInventario = 0, '-', 'Confirmado') AS statusInventario
 FROM almacen_inventario_inicial AS p
+LEFT OUTER JOIN comercial_locales AS cl ON p.localid = cl.localid
 ";
+
 //LEFT JOIN utiles_tablas_detalle d ON p.unidadProducto = d.detalleid AND d.nombreTabla = 'UNIDAD_MEDIDA_PRODUCTO';";
 $result = $conn->query($v_sql);
 
@@ -24,8 +26,8 @@ if ($result->num_rows > 0) {
         echo "<td>" . $row['inventarioid'] . "</td>";
         echo "<td>" . $row['localid'] . "</td>";
         echo "<td>" . $row['emisionInicial'] . "</td>";
-        echo "<td>" . ($row['statusInventario'] == 0 ? 'Activo' : 'Inactivo') . "</td>";
-        echo "<td><a href='./form/inventarios.html?inventarioid=" . $row['inventarioid'] . "' class='btn btn-sm btn-primary'><i class='bi bi-highlighter'></i></a></td>";
+        echo "<td>" . $row['statusInventario'] . "</td>";
+        echo "<td><a href='./forms/inventarios.html?inventarioid=" . $row['inventarioid'] . "' class='btn btn-sm btn-primary'><i class='bi bi-highlighter'></i></a></td>";
         echo "</tr>";
     }
 } else {

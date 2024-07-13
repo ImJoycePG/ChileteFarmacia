@@ -9,10 +9,16 @@ $inventarioid = $_GET['inventarioid'];
 
 $query = "
     SELECT 
-        * 
-    FROM almacen_inventario_inicial 
-    WHERE inventarioid = ?
+        p.inventarioid,
+        p.localid,
+        cl.nombreLocal AS local,
+        DATE_FORMAT(p.emisionInicial, '%Y-%m-%d') AS emisionInicial,
+        p.statusInventario
+    FROM almacen_inventario_inicial AS p
+    LEFT OUTER JOIN comercial_locales AS cl ON p.localid = cl.localid
+    WHERE p.inventarioid = ?
 ";
+
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $inventarioid);
 $stmt->execute();

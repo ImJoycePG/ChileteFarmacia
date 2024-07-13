@@ -12,9 +12,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
-    <title>Facturar/Boleta | Chilete Farmacia</title>
+    <title>Orden de Compra| Chilete Farmacia</title>
 </head>
-<body onload="hideSpinner(); loadFacturasData();">
+<body onload="hideSpinner(); loadOrdenData();">
     <div id="spinner-container" class="spinner-container">
         <div class="spinner-border text-warning" role="status">
             <span class="visually-hidden">Loading...</span>
@@ -117,72 +117,32 @@
         </nav>
     </header>
     
-    <div class="container"> 
-        <h2 class="text-center mb-4 mt-4">Factura Rapida</h2>
-        <form id="facturaForm" action="../../../backend/pages/form/facturar/facturar_new.php" method="post">
-            <input type="hidden" id="facturaid" name="facturaid">
+    <div class="container">
+        <h2 class="text-center mb-4 mt-4">Orden de Compra</h2>
+        <form id="ordenCompraForm" action="../../../backend/pages/form/orden_compra/orden_compra_new.php" method="post">
+            <input type="hidden" id="ordenid" name="ordenid">
 
             <div class="mb-3">
-                <label for="documento" class="form-label">Documento</label>
-                <input type="text" class="form-control" id="documento" name="documento" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="cliente" class="form-label">Cliente</label>
-                <input type="text" class="form-control" id="cliente" name="cliente" required>
-                <input type="hidden" id="clienteid" name="clienteid" required>
+                <label for="auxiliarid" class="form-label">Auxiliar</label>
+                <input type="text" class="form-control" id="auxiliar" name="auxiliar" required>
+                <input type="hidden" class="form-control" id="auxiliarid" name="auxiliarid" required>
             </div>
 
             <div class="mb-3">
-                <label for="direccion_fiscal" class="form-label">Dirección Fiscal</label>
-                <input type="text" class="form-control" id="direccion_fiscal" name="direccion_fiscal" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="tipovta" class="form-label">Tipo de Venta</label>
-                <input type="text" class="form-control" id="tipovta" name="tipovta">
-                <input type="hidden" id="tipovtaid" name="tipovtaid" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="formaPago" class="form-label">Forma de Pago</label>
-                <select class="form-select" id="formaPago" name="formaPago">
-                    <!--AQUI ENTRAN LAS OPCIONES-->
-                </select>
-            </div>
-            
-            <div class="mb-3">
-                <label for="serie" class="form-label">Serie</label>
-                <input type="text" class="form-control" id="serie" name="serie" readonly>
-            </div>
-
-            <div class="mb-3">
-                <label for="correlativo" class="form-label">Correlativo</label>
-                <input type="text" class="form-control" id="correlativo" name="correlativo" readonly>
-            </div>
-            
-            <div class="mb-3">
-                <label for="totalPago" class="form-label">Total de Pago</label>
-                <input type="number" class="form-control" id="totalPago" name="totalPago" readonly>
-            </div>
-
-            <div class="mb-3">
-                <label for="confirmado" class="form-label">Confirmado</label>
-                <select class="form-select" id="confirmado" name="confirmado">
-                    <option value="0">-</option>
-                    <option value="1">Si</option>
-                </select>
+                <label for="fechaOrden" class="form-label">Fecha</label>
+                <input type="date" class="form-control" id="fechaOrden" name="fechaOrden" required>
             </div>
 
             <div class="d-flex justify-content-between">
-                <button type="button" class="btn btn-secondary" onclick="window.location.href='../facturar_view.html'">Volver</button>
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='../orden_compra_view.html'">Volver</button>
                 <div>
-                    <button type="submit" class="btn btn-primary" id="registerButton">Registrar Comprobante</button>
-                    <button type="button" class="btn btn-success" id="updateButton" style="display:none;" onclick="updateFactura()">Actualizar Comprobante</button>
+                    <button type="submit" class="btn btn-primary" id="registerButton">Registrar Orden de Compra</button>
+                    <button type="button" class="btn btn-success" id="updateButton" style="display:none;" onclick="updateOrdenCompra()">Actualizar Orden de Compra</button>
+                    <button type="button" class="btn btn-danger" id="deleteButton" style="display:none;" onclick="deleteOrdenCompra()">Eliminar Orden de Compra</button>
                 </div>
             </div>
 
-            <div id="tablaDetalleFactura">
+            <div id="tablaDetalleOrden">
 
 
             </div>
@@ -190,12 +150,12 @@
     </div>
     
     <script>
-        document.getElementById('facturaForm').addEventListener('submit', function(event) {
+        document.getElementById('ordenCompraForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
             const formData = new FormData(this);
 
-            fetch('../../../backend/pages/form/facturar/facturar_new.php', {
+            fetch('../../../backend/pages/form/orden_compra/orden_compra_new.php', {
                 method: 'POST',
                 body: formData
             })
@@ -204,16 +164,15 @@
                 if (result.success) {
                     Swal.fire(
                         '¡Registrado!',
-                        'El comprobante ha sido registrado.',
+                        'La orden de compra ha sido registrada.',
                         'success'
                     ).then(() => {
-                        window.location.href = '../facturar_view.html';
+                        window.location.href = '../orden_compra_view.html';
                     });
                 } else {
-                    console.log(result.error);
                     Swal.fire(
                         'Error',
-                        'Hubo un problema al registrar el comprobante.',
+                        'Hubo un problema al registrar la orden de compra.',
                         'error'
                     );
                 }
@@ -221,49 +180,41 @@
             .catch(error => {
                 Swal.fire(
                     'Error',
-                    'Hubo un problema al registrar el comprobante.',
+                    'Hubo un problema al registrar la orden de compra.',
                     'error'
                 );
             });
         });
 
-        function loadFacturasData() {
+        function loadOrdenData() {
             const params = new URLSearchParams(window.location.search);
-            const facturaid = params.get('facturaid');
+            const ordenid = params.get('ordenid');
             
-            if (facturaid) {
-                fetch(`../../../backend/pages/form/facturar/facturar_get.php?facturaid=${facturaid}`)
+            if (ordenid) {
+                fetch(`../../../backend/pages/form/orden_compra/orden_compra_get.php?ordenid=${ordenid}`)
                     .then(response => response.json())
                     .then(data => {
-                        document.getElementById('facturaid').value = data.facturaid;
-                        document.getElementById('documento').value = data.documento;
-                        document.getElementById('clienteid').value = data.clienteid;
-                        document.getElementById('cliente').value = data.cliente;
-                        document.getElementById('direccion_fiscal').value = data.direccion_fiscal;
-                        document.getElementById('tipovtaid').value = data.tipovtaid;
-                        document.getElementById('tipovta').value = data.nombreTipoVta;
-                        document.getElementById('formaPago').value = data.formaPago;
-                        document.getElementById('serie').value = data.serie;
-                        document.getElementById('correlativo').value = data.correlativo;
-                        document.getElementById('totalPago').value = data.totalPago;
-                        document.getElementById('confirmado').value = data.confirmado;
+                        document.getElementById('ordenid').value = data.ordenid;
+                        document.getElementById('auxiliarid').value = data.auxiliarid;
+                        document.getElementById('auxiliar').value = data.auxiliar;
+                        document.getElementById('fechaOrden').value = data.fechaOrden;
 
+                
                         document.getElementById('registerButton').style.display = 'none';
                         document.getElementById('updateButton').style.display = 'inline-block';
-                        
-                        loadDetalleFactura(facturaid)
+                        document.getElementById('deleteButton').style.display = 'inline-block';
+                        loadDetalleFactura(ordenid);
                         hideSpinner();
                     })
-                    .catch(error => { console.error('Error al cargar los datos del comprobante:', error); hideSpinner(); });
+                    .catch(error => { console.error('Error al cargar los datos de la orden de compra:', error); hideSpinner(); });
             } else {
                 hideSpinner();
             }
-        }
-
-        function updateFactura() {
-            const formData = new FormData(document.getElementById('facturaForm'));
-
-            fetch('../../../backend/pages/form/facturar/facturar_update.php', {
+        } 
+        
+        function updateOrdenCompra() {
+            const formData = new FormData(document.getElementById('ordenCompraForm'));
+            fetch('../../../backend/pages/form/orden_compra/orden_compra_update.php', {
                 method: 'POST',
                 body: formData
             })
@@ -272,15 +223,15 @@
                 if (result.success) {
                     Swal.fire(
                         '¡Actualizado!',
-                        'El comprobante ha sido actualizado.',
+                        'La orden de compra ha sido actualizada.',
                         'success'
                     ).then(() => {
-                        window.location.href = '../facturar_view.html';
+                        window.location.href = '../orden_compra_view.html';
                     });
                 } else {
                     Swal.fire(
                         'Error',
-                        'Hubo un problema al actualizar el comprobante: ' + result.error,
+                        'Hubo un problema al actualizar la orden de compra: ' + result.error,
                         'error'
                     );
                 }
@@ -288,9 +239,57 @@
             .catch(error => {
                 Swal.fire(
                     'Error',
-                    'Hubo un problema al actualizar el comprobante.',
+                    'Hubo un problema al actualizar la orden de compra.',
                     'error'
                 );
+            });
+        }
+    
+        function deleteOrdenCompra() {
+            const ordenid= document.getElementById('ordenid').value;
+
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminarlo'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`../../../backend/pages/form/orden_compra/orden_compra_delete.php`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `ordenid=${ordenid}`
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            Swal.fire(
+                                '¡Eliminado!',
+                                'La orden de compra ha sido eliminada.',
+                                'success'
+                            ).then(() => {
+                                window.location.href = '../orden_compra_view.html';
+                            });
+                        } else {
+                            Swal.fire(
+                                'Error',
+                                'Hubo un problema al eliminar la orden de compra.',
+                                'error'
+                            );
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire(
+                            'Error',
+                            'Hubo un problema al eliminar la orden de compra.',
+                            'error'
+                        );
+                    });
+                }
             });
         }
 
@@ -299,79 +298,17 @@
                 document.getElementById('spinner-container').classList.add('hidden');
             }, 1000);
         }
-        fetch('../../../backend/pages/tabla_varios/listFormaPago.php')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('formaPago').innerHTML = data;
-            });
+
+        function cerrarSesion() {
+            window.location.href = '../../../../login.html';
+        }
     </script>
-
-    <script>
-        $(function() {
-            $("#cliente").autocomplete({
-                source: function(request, response) {
-                    $.ajax({
-                        url: "../../../backend/pages/autocomplete/clientes_search.php",
-                        data: { term: request.term },
-                        dataType: "json",
-                        success: function(data) {
-                            response($.map(data, function(item) {
-                                return {
-                                    dir_fiscal: item.direccion_fiscal,
-                                    documento: item.documento,
-                                    value: item.cliente,
-                                    id: item.clienteid
-                                };
-                            }));
-                        }
-                    });
-                },
-                select: function(event, ui) {
-                    $("#cliente").val(ui.item.value);
-                    $("#clienteid").val(ui.item.id);
-                    $("#documento").val(ui.item.documento);
-                    $("#direccion_fiscal").val(ui.item.dir_fiscal);
-                    return false;
-                }
-            });
-        });
-
-        $(function() {
-            $("#tipovta").autocomplete({
-                source: function(request, response) {
-                    $.ajax({
-                        url: "../../../backend/pages/autocomplete/tipovta_search.php",
-                        data: { term: request.term },
-                        dataType: "json",
-                        success: function(data) {
-                            response($.map(data, function(item) {
-                                return {
-                                    value: item.tipovta,
-                                    id: item.tipovtaid,
-                                    serie: item.serie,
-                                    correlativo: item.correlativo
-                                };
-                            }));
-                        }
-                    });
-                },
-                select: function(event, ui) {
-                    $("#tipovta").val(ui.item.value);
-                    $("#tipovtaid").val(ui.item.id);
-                    $("#correlativo").val(ui.item.correlativo);
-                    $("#serie").val(ui.item.serie);
-                    return false;
-                }
-            });
-        });
-    </script>
-
     <script>
         function loadDetalleFactura(tablaid) { 
-            const extraContentDiv = document.getElementById('tablaDetalleFactura');
+            const extraContentDiv = document.getElementById('tablaDetalleOrden');
             extraContentDiv.innerHTML = `
                 <div class="container mt-5">
-                    <h2 class="text-center mb-4">Detalle Productos</h2>
+                    <h2 class="text-center mb-4">Detalle de Movimiento</h2>
 
                     <div class="container-fluid text-center">
                         <button class="btn btn-success" type="button" id="addRowButton" onclick="addRow()">Añadir Fila</button>
@@ -384,8 +321,6 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Producto</th>
                                 <th scope="col">Cantidad</th>
-                                <th scope="col">PrecUnit</th>
-                                <th scope="col">Total</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
@@ -397,7 +332,7 @@
         }
 
         function loadDetalleFacturaData(tablaid) {
-            fetch(`../../../backend/pages/form/facturar_detalle/facturar_detalle_get.php?facturaid=${tablaid}`)
+            fetch(`../../../backend/pages/form/orden_compra_detalle/orden_compra_detalle_get.php?ordenid=${tablaid}`)
                 .then(response => response.json())
                 .then(data => {
                     const tableBody = document.getElementById('tablaVariosTable');
@@ -406,16 +341,14 @@
                         data.forEach(row => {
                             const tr = document.createElement('tr');
                             tr.innerHTML = `
-                                <td>${row.detalleid}</td>
+                                <td>${row.detordenid}</td>
                                 <td>
                                     <input type="hidden" class="form-control product-id" name="productoid" value="${row.productoid}"/>
                                     <input type="text" class="form-control product-name" name="productname" value="${row.nameProduct}" />
                                 </td>
                                 <td><input type="number" class="form-control" value="${row.cantidad}" step="any"/></td>
-                                <td><input type="number" class="form-control" value="${row.precUnit}" step="any"/></td>
-                                <td><input type="number" class="form-control" value="${row.precTotal}" step="any"/></td>
                                 <td>
-                                    <button class="btn btn-danger btn-sm" onclick="deleteRow(${row.detalleid}, this)">Eliminar</button>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteRow(${row.detordenid}, this)">Eliminar</button>
                                 </td>
                             `;
                             tableBody.appendChild(tr);
@@ -438,9 +371,7 @@
                     <input type="hidden" class="form-control product-id" name="productoid"/>
                     <input type="text" class="form-control product-name" name="productname"/>
                 </td>
-                <td><input type="number" class="form-control" name="cantidad" id="cantidad" oninput="calcularTotal()" step="any"/></td>
-                <td><input type="number" class="form-control" name="precUnit" id="precUnit" oninput="calcularTotal()" step="any"/></td>
-                <td><input type="number" class="form-control" name="precTotal" id="precTotal" step="any" readonly/></td>
+                <td><input type="number" class="form-control" name="cantidad" id="cantidad"/></td>
                 <td>
                     <button class="btn btn-danger btn-sm" onclick="deleteRow(null, this)">Eliminar</button>
                 </td>
@@ -477,15 +408,14 @@
             event.preventDefault();
             const row = button.parentElement.parentElement;
             if (detalleid) {
-                fetch(`../../../backend/pages/form/facturar_detalle/facturar_detalle_delete.php`, {
+                fetch(`../../../backend/pages/form/orden_compra_detalle/orden_compra_detalle_new.php`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `detalleid=${detalleid}`
+                    body: `detordenid=${detalleid}`
                 })
                 .then(response => {
-                    console.log(response)
                     if (response.ok) {
                         row.remove();
                         Swal.fire(
@@ -527,13 +457,11 @@
                     detalleid: row.children[0].innerText === 'New' ? null : row.children[0].innerText,
                     productoid: inputs[0].value,
                     cantidad: inputs[2].value,
-                    precUnit: inputs[3].value,
-                    precTotal: inputs[4].value,
-                    facturaid : tablaid
+                    ordenid: tablaid
                 });
             });
-
-            fetch(`../../../backend/pages/form/facturar_detalle/facturar_detalle_new.php`, {
+            
+            fetch(`../../../backend/pages/form/orden_compra_detalle/orden_compra_detalle_new.php`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -567,16 +495,33 @@
                 console.error('Error saving table:', error);
             });
         }
-
-        function calcularTotal() {
-            let cantidad = parseFloat(document.getElementById("cantidad").value);
-            let precUnit = parseFloat(document.getElementById("precUnit").value);
-            let total = 0;
-            if(cantidad && precUnit) {
-                total = cantidad * precUnit;
-            }
-            document.getElementById("precTotal").value = total.toFixed(4);
-        }
+    </script>
+    <script>
+        $(function() {
+            $("#auxiliar").autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: "../../../backend/pages/autocomplete/auxiliar_search.php",
+                        data: { term: request.term },
+                        dataType: "json",
+                        success: function(data) {
+                            response($.map(data, function(item) {
+                                return {
+                                    label: item.auxiliar,
+                                    value: item.auxiliar,
+                                    id: item.auxiliarid
+                                };
+                            }));
+                        }
+                    });
+                },
+                select: function(event, ui) {
+                    $("#auxiliar").val(ui.item.value);
+                    $("#auxiliarid").val(ui.item.id);
+                    return false;
+                }
+            });
+        });
     </script>
 
 
